@@ -1,11 +1,10 @@
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 
 
 public class Serveur {
 	
-	public static int port = 8000;
+	public static int port = 8080;
 	public static ServerSocket soc;
 
 	
@@ -16,17 +15,27 @@ public class Serveur {
         
 		try {
 			soc = new ServerSocket(port);
-			System.out.println("FTP Server started on port n°"+port+".");
-			
-			while (true){
-				Socket s = soc.accept();
-                System.out.println("Client connected from " + s.getInetAddress().getHostName() + "...");
-                Thread t = new Thread();
-                t.start();
-			}
-			
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
+		
+        System.out.println("FTP Server Started on Port Number " + port + ".");
+        
+        while(true){
+            //System.out.println("Waiting for Connection ...");
+            
+            /*
+            try {
+				soc.wait();
+			} catch (InterruptedException e) {
+				System.out.println(e.getMessage());
+			}
+            try {
+				soc.accept();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+			*/
+        }
 	}
 }
