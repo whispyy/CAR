@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 import org.omg.CORBA.portable.UnknownException;
 
-public class Client {
+public class FtpRequest {
 
 	private Socket connection;
 	private DataInputStream input;
@@ -26,7 +26,7 @@ public class Client {
 		System.out.print("Connection to : " + hostname + ":" + port);
 		String s = new Scanner(System.in).next();
 
-		new Client().connect(hostname,port);
+		new FtpRequest().connect(hostname,port);
 	}
 
 	public void connect(String hostname,int port) throws IOException{
@@ -36,17 +36,18 @@ public class Client {
 			output = new DataOutputStream(connection.getOutputStream());
 		}
 		catch(ConnectException e){
-			System.out.print("Connection refused");
+			System.out.print("Connection refused :"+e.getMessage());
 			System.exit(1);
 		}
 		catch(UnknownException e){
-			System.out.print("Connection not found");
+			System.out.print("Connection not found :"+e.getMessage());
 			System.exit(1);
 		}
 		Scanner scan= new Scanner(System.in);
 		/*
-		a completer test d'erreur sur lecture de boolean
-		 */
+			a completer test d'erreur sur lecture de boolean
+			+ gerer le mot de passe ... etc
+		*/
 		checksum=input.readBoolean();
 		try{md=MessageDigest.getInstance("SHA-1");}
 		catch(NoSuchAlgorithmException e){e.printStackTrace();}
@@ -61,6 +62,7 @@ public class Client {
 			output.writeUTF(request);
 			}
 			catch(NoSuchElementException e){
+				System.out.print("Error :"+e.getMessage());
 				System.exit(0);
 			}
 		}
