@@ -25,13 +25,9 @@ public class Serveur {
                 t.start();
 			}
 			
-		} catch (IOException e) {
-			System.out.println("socConnect::"+e.getMessage());
-		}
-		try {
 			soc.close();
 		} catch (IOException e) {
-			System.out.println("socClose::"+e.getMessage());
+			System.out.println(e.getMessage());
 		}
 	}
 }

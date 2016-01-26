@@ -26,7 +26,7 @@ public class Serveur {
 			}
 			
 		} catch (IOException e) {
-			System.out.println("socConnect::"+e.getMessage());
+			System.out.println(e.getMessage());
 		}
 		try {
 			soc.close();

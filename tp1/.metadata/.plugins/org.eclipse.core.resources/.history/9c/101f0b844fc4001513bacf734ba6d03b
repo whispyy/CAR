@@ -24,7 +24,8 @@ public class Client {
 		String hostname = "localhost";
 		int port = 3000;
 		System.out.print("Connection to : " + hostname + ":" + port);
-		String s = new Scanner(System.in).next();
+		//String s = new Scanner(System.in).next();
+		System.out.println(args[0]);
 
 		new Client().connect(hostname,port);
 	}

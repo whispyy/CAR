@@ -12,19 +12,18 @@ import java.util.Scanner;
 import org.omg.CORBA.portable.UnknownException;
 
 public class Client {
-
+	
 	private Socket connection;
 	private DataInputStream input;
 	private DataOutputStream output;
 	private boolean checksum;
-	private MessageDigest md;
-	private Thread inputThread;
 
 	public static void main(String[] args) throws IOException{
-		String hostname = "localhost";
-		int port = 3000;
-		System.out.print("Connection to : " + hostname + ":" + port);
+
+		System.out.print("Connection to :");
 		String s = new Scanner(System.in).next();
+		String hostname = null;
+		int port = 8080;
 
 		new Client().connect(hostname,port);
 	}
@@ -46,23 +45,23 @@ public class Client {
 		Scanner scan= new Scanner(System.in);
 		/*
 		a completer test d'erreur sur lecture de boolean
-		 */
+		*/
 		checksum=input.readBoolean();
-		try{md=MessageDigest.getInstance("SHA-1");}
-		catch(NoSuchAlgorithmException e){e.printStackTrace();}
-		inputThread = new Thread();
-		inputThread.start();
+        try{md=MessageDigest.getInstance("SHA-1");}
+        catch(NoSuchAlgorithmException e){e.printStackTrace();}
+        inputThread = new Thread( this );
+        inputThread.start();
 
-		//ecriture sur le serveur
-		while(true){
-			try{String request=scan.nextLine().trim();
-			if(request.equalsIgnoreCase("exit")||request.equalsIgnoreCase("quit")||request.equalsIgnoreCase("bye")||request.equalsIgnoreCase("close"))
-				System.exit(0);
-			output.writeUTF(request);
-			}
-			catch(NoSuchElementException e){
-				System.exit(0);
-			}
-		}
+        //ecriture sur le serveur
+        while(true){
+        	try{String request=scan.nextLine().trim();
+            	if(request.equalsIgnoreCase("exit")||request.equalsIgnoreCase("quit")||request.equalsIgnoreCase("bye")||request.equalsIgnoreCase("close"))
+                	System.exit(0);
+            	output.writeUTF(request);
+            }
+            catch(NoSuchElementException e){
+            	System.exit(0);
+            }
+         }
 	}
 }

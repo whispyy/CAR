@@ -21,10 +21,11 @@ public class Client {
 	private Thread inputThread;
 
 	public static void main(String[] args) throws IOException{
-		String hostname = "localhost";
-		int port = 3000;
-		System.out.print("Connection to : " + hostname + ":" + port);
+
+		System.out.print("Connection to :");
 		String s = new Scanner(System.in).next();
+		String hostname = "localhost";
+		int port = 8000;
 
 		new Client().connect(hostname,port);
 	}
