@@ -23,7 +23,7 @@ public class Serveur {
 			while (true){
 				Socket s = soc.accept();
 				FtpRequest ftpR = new FtpRequest(s);
-				System.out.println(s.getInputStream().toString());
+				System.out.println(s.toString());
 				
                 System.out.println("Client connected from " + s.getInetAddress().getHostName() + "...");
                
