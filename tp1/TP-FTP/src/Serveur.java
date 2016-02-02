@@ -28,7 +28,7 @@ public class Serveur {
                 System.out.println("Client connected from " + s.getInetAddress().getHostName() + "...");
                
                 new Thread(){
-                	
+                	ftpR.processRequest(s.toString());
                 }
                 .start();
                 

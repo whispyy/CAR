@@ -1,13 +1,28 @@
 import java.net.Socket;
+//import java.io.BufferedInputStream;
+//import java.io.BufferedOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 
 public class FtpRequest {
 
 	private Socket s;
-	
+	private BufferedReader r;
+	private OutputStreamWriter w;
+
 	public FtpRequest(Socket s){
 		this.s = s;
-		processRequest(s.toString());
+
+		try{
+			r = new BufferedReader(new inputStreamReader(this.s.getInputStream()));
+			w = new OutputStreamWriter(this.s.getOutputStream());
+		}
+		catch (IOexception e){
+			System.out.println(e);
+		}
 	}
 
 	public void processRequest(String req){
@@ -26,7 +41,10 @@ public class FtpRequest {
 	}
 
 	private String processUSER(String req){
-		
+		System.out.println ("USER : "+req);
+
+
+
 		return "TRUE";
 	}
 
