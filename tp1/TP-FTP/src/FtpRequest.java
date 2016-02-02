@@ -1,32 +1,51 @@
 
 public class FtpRequest {
 
+	public FtpRequest(){}
 
-	public void processRequest(){
-
-	}
-
-	public void processUSER(){
-
-	}
-
-	public void processPASS(){
-
-	}
-
-	public void processRETR(){
-
-	}
-
-	public void processSTOR(){
+	public void processRequest(String req){
+		if req.contains("USER")
+			processUSER(req);
+		if req.contains("PASS")
+			processPASS(req);
+		if req.contains("RETR")
+			processRETR(req);
+		if req.contains("STOR")
+			processSTOR(req);
+		if req.contains("LIST")
+			processLIST(req);
+		if req.contains("QUIT")
+			processQUIT(req);
 
 	}
 
-	public void processLIST(){
-
+	private String processUSER(String req){
+		
+		return "TRUE";
 	}
 
-	public void processQUIT(){
+	private String processPASS(String req){
+		
+		return "TRUE";
+	}
 
+	private String processRETR(String req){
+		
+		return "TRUE";
+	}
+
+	private String processSTOR(String req){
+		
+		return "TRUE";
+	}
+
+	private String processLIST(String req){
+		
+		return "TRUE";
+	}
+
+	private String processQUIT(String req){
+		
+		return "TRUE";
 	}
 }
