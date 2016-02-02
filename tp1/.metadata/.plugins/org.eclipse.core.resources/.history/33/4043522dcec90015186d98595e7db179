@@ -1,14 +1,7 @@
-import java.net.Socket;
-
 
 public class FtpRequest {
 
-	private Socket s;
-	
-	public FtpRequest(Socket s){
-		this.s = s;
-		processRequest(s.toString());
-	}
+	public FtpRequest(){}
 
 	public void processRequest(String req){
 		if (req.contains("USER"))
@@ -23,6 +16,7 @@ public class FtpRequest {
 			processLIST(req);
 		if (req.contains("QUIT"))
 			processQUIT(req);
+
 	}
 
 	private String processUSER(String req){

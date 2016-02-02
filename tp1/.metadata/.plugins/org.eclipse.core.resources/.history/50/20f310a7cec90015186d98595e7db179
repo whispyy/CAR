@@ -7,7 +7,6 @@ public class FtpRequest {
 	
 	public FtpRequest(Socket s){
 		this.s = s;
-		processRequest(s.toString());
 	}
 
 	public void processRequest(String req){

@@ -15,7 +15,6 @@ public class Serveur {
         System.out.println("********************************* FTP SERVER *********************************");
         System.out.println("******************************************************************************");
         
-        
 		try {
 			soc = new ServerSocket(port);
 			System.out.println("FTP Server started on port n°"+port+".");
@@ -28,6 +27,7 @@ public class Serveur {
                 System.out.println("Client connected from " + s.getInetAddress().getHostName() + "...");
                
                 new Thread(){
+                	
                 	
                 }
                 .start();

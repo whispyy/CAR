@@ -15,19 +15,17 @@ public class Serveur {
         System.out.println("********************************* FTP SERVER *********************************");
         System.out.println("******************************************************************************");
         
-        
 		try {
 			soc = new ServerSocket(port);
 			System.out.println("FTP Server started on port n°"+port+".");
 			
 			while (true){
-				Socket s = soc.accept();
+				Socket s;
 				FtpRequest ftpR = new FtpRequest(s);
-				System.out.println(s.toString());
-				
                 System.out.println("Client connected from " + s.getInetAddress().getHostName() + "...");
                
                 new Thread(){
+                	
                 	
                 }
                 .start();
