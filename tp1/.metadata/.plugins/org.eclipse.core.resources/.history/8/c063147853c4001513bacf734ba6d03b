@@ -7,7 +7,6 @@ public class Serveur {
 	
 	public static int port = 3000;
 	public static ServerSocket soc;
-	protected int nbLimt = 20;
 
 	
 	public static void main(String args[]){	
@@ -22,13 +21,8 @@ public class Serveur {
 			while (true){
 				Socket s = soc.accept();
                 System.out.println("Client connected from " + s.getInetAddress().getHostName() + "...");
-                
-                new Thread(){
-                	FtpRequest ftp = new FtpRequest();
-                	
-                }
-                .start();
-                
+                Thread t = new Thread();
+                t.start();
 			}
 			
 		} catch (IOException e) {
