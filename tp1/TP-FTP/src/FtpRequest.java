@@ -1,7 +1,12 @@
 
 public class FtpRequest {
 
-	public FtpRequest(){}
+	private Socket s;
+
+	public FtpRequest(Socket s){
+		this.s = s;
+		processRequest(s.toString());
+	}
 
 	public void processRequest(String req){
 		if req.contains("USER")
@@ -20,7 +25,8 @@ public class FtpRequest {
 	}
 
 	private String processUSER(String req){
-		
+		System.out.println ("USER : "+req);
+
 		return "TRUE";
 	}
 
