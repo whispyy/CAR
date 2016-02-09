@@ -9,4 +9,6 @@
 <fullyQualifiedTypeName name="java.net.ConnectException"/>
 <fullyQualifiedTypeName name="java.security.MessageDigest"/>
 <fullyQualifiedTypeName name="java.lang.Thread"/>
+<fullyQualifiedTypeName name="Authentification"/>
+<fullyQualifiedTypeName name="FtpRequest"/>
 </qualifiedTypeNameHistroy>

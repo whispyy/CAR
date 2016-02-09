@@ -23,9 +23,9 @@ public class FtpRequest {
 	private String path;
 
 	private Socket ds;
-	private DataInputStream dr;
-	private DataOutputStream dw;
-	private Path data; //pas sur
+	private BufferedReader dr;
+	private OutputStreamWriter dw;
+	private byte[] data; //pas sur
 	
 	public FtpRequest(Socket s){
 		this.s = s;
@@ -52,7 +52,7 @@ public class FtpRequest {
 	}
 
 	public void processRequest(){
-		String req = null;
+		String req;
 
 		if (req.contains("USER"))
 			processUSER(req);
@@ -89,14 +89,14 @@ public class FtpRequest {
 
         try {
             if (this.auth) {
-                byte[] dataArray = Files.readAllBytes(file.resolve(this.data));
+                byte[] dataArray = Files.readAllBytes(fileToTransfer.resolve(this.data));
 
                 this.ds = new Socket(InetAddress.getByName(this.adr), this.port);
 
                 this.dr = new DataInputStream(this.ds.getInputStream());
                 this.dw = new DataOutputStream(this.ds.getOutputStream());
 
-                System.out.println("150 : File OK");
+                this.out.println("150 : File OK");
 
                 for (int i = 0; i < dataArray.length; i++) {
                     this.dw.writeByte(dataArray[i]);
