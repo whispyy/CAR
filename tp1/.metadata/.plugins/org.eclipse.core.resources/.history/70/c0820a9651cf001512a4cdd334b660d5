@@ -140,12 +140,7 @@ public class FtpRequest implements Runnable {
 	}
 
 	public void run() {
-		System.out.println("connecté mais tu vas jarter");
-		try {
-			s.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		s.close();
 	}
 }

@@ -29,8 +29,6 @@ public class FtpRequest implements Runnable {
 	private String data;
 	private String cmd;
 	
-	
-	
 	public FtpRequest(Socket s){
 		this.s = s;
 		this.adr = this.s.getLocalAddress().getHostAddress();
@@ -46,16 +44,13 @@ public class FtpRequest implements Runnable {
 		this.user = "user";
 		this.pass = "pass";
 		this.path = System.getProperty("user.home");
-		new Thread(this).start();
 	}
 
-	
-	
-	public void processRequest() throws IOException{
+	public void processRequest(){
 		String req = null;
 
-		while((req = this.r.readLine()) != null){
-			if (req.split(" ").length > 1){
+		while(req = this.r.readLine() != null){
+			if (req.split(" ") > 1){
 				this.cmd = req.split(" ")[0];
 				this.data = req.split(" ")[1];
 			}
@@ -137,15 +132,5 @@ public class FtpRequest implements Runnable {
 	private String processQUIT(){
 		
 		return "TRUE";
-	}
-
-	public void run() {
-		System.out.println("connecté mais tu vas jarter");
-		try {
-			s.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 }
