@@ -25,12 +25,12 @@ public class FtpRequest {
 	private Socket ds;
 	private DataInputStream dr;
 	private DataOutputStream dw;
-	private Path data; //pas sur
+	private String data;
 	
 	public FtpRequest(Socket s){
 		this.s = s;
 		this.adr = this.s.getLocalAddress().getHostAddress();
-		this.port = 3000;
+		this.port = s.getPort();
 		this.auth = false;
 		try{
 			r = new BufferedReader(new InputStreamReader(this.s.getInputStream()));
@@ -41,10 +41,10 @@ public class FtpRequest {
 		}
 		this.user = "user";
 		this.pass = "pass";
-		this.path = System.getProperty(user.home);
+		this.path = System.getProperty("user.home");
 
 		//définir le data
-		this.data;
+		this.data = r.readLine();
 		//définir un datasocket
 		this.ds;
 		this.dr;
