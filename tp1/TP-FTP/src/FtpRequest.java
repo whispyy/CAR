@@ -1,11 +1,8 @@
-import java.net.Socket;
-//import java.io.BufferedInputStream;
-//import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.net.Socket;
 
 public class FtpRequest {
 
@@ -30,10 +27,10 @@ public class FtpRequest {
 		this.port = 3000;
 		this.auth = false;
 		try{
-			r = new BufferedReader(new inputStreamReader(this.s.getInputStream()));
+			r = new BufferedReader(new InputStreamReader(this.s.getInputStream()));
 			w = new OutputStreamWriter(this.s.getOutputStream());
 		}
-		catch (IOexception e){
+		catch (IOException e){
 			System.out.println(e);
 		}
 		this.user = "user";
