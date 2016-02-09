@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 
 public class FtpRequest implements Runnable {
 
+	private boolean ActiveConnection;
 	private Socket s;
 	private	String adr;
 	private int port;
@@ -43,9 +44,10 @@ public class FtpRequest implements Runnable {
 		catch (IOException e){
 			System.out.println(e);
 		}
+		this.ActiveConnection = true;
 		this.user = "user";
 		this.pass = "pass";
-		this.path = System.getProperty("user.home");
+		this.path = System.getProperty(user+".home");
 		new Thread(this).start();
 	}
 
@@ -92,8 +94,10 @@ public class FtpRequest implements Runnable {
 	private void processPASS(){
 		if (this.auth && this.pass.equals(this.data))
 			System.out.println("230 : login ok");
-		else
+		else{
 			System.out.println("530 : bad password");
+			this.ActiveConnection = false;
+		}
 	}
 
 	private void processRETR(){
@@ -134,18 +138,23 @@ public class FtpRequest implements Runnable {
 		return "TRUE";
 	}
 
-	private String processQUIT(){
-		
-		return "TRUE";
+	private void processQUIT(){
+		try {
+			this.ActiveConnection = false;
+			s.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void run() {
 		System.out.println("connecté mais tu vas jarter");
-		try {
-			s.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		while(ActiveConnection){
+			processUSER();
+			if (auth)
+				processPASS();
+			};
+		};
+		processQUIT();
 	}
 }
