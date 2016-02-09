@@ -6,19 +6,15 @@ import java.net.Socket;
 public class Serveur {
 	
 	public static ServerSocket soc;
-	
-	
-	public static void lancementServeur(){
-		System.out.println("******************************************************************************");
-        System.out.println("********************************* FTP SERVER *********************************");
-        System.out.println("******************************************************************************");
-	}
+	protected int nbLimt = 20;
 	
 	
 	public static void main(String args[]){	
+		System.out.println("******************************************************************************");
+        System.out.println("********************************* FTP SERVER *********************************");
+        System.out.println("******************************************************************************");
         int port = Authentification.port;
-        int nbLimit = Authentification.nbLimit;
-        lancementServeur();
+        
         
 		try {
 			soc = new ServerSocket(port);

@@ -8,7 +8,7 @@ public class Serveur {
 	public static ServerSocket soc;
 	
 	
-	public static void lancementServeur(){
+	public void lancementServeur(){
 		System.out.println("******************************************************************************");
         System.out.println("********************************* FTP SERVER *********************************");
         System.out.println("******************************************************************************");
@@ -18,7 +18,7 @@ public class Serveur {
 	public static void main(String args[]){	
         int port = Authentification.port;
         int nbLimit = Authentification.nbLimit;
-        lancementServeur();
+        
         
 		try {
 			soc = new ServerSocket(port);

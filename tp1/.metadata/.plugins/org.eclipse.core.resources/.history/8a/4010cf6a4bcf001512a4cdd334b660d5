@@ -32,7 +32,7 @@ public class FtpRequest {
 		this.adr = this.s.getLocalAddress().getHostAddress();
 		this.port = 3000;
 		this.auth = false;
-		try {
+		try{
 			r = new BufferedReader(new InputStreamReader(this.s.getInputStream()));
 			w = new OutputStreamWriter(this.s.getOutputStream());
 		}
