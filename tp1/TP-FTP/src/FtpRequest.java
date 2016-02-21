@@ -134,6 +134,35 @@ public class FtpRequest implements Runnable {
 	}
 
 	private String processLIST(){
+		File fichier = new File(this.path);
+		File[] ls = fichier.listFiles();
+		String currentFiles = "";
+
+		try{
+			this.dr = new OutputStream(this.ds.getInputStream());
+			this.dw = new DataOutputStream(this.ds.getOutputStream());
+
+			if (this.auth){
+				this.w.println("150 : Files OK");
+				for (int i=0; i <ls.length; i++){
+					if (!ls[i].isHiddent())
+						if (!ls[i].isFile())
+							currentFiles = "+s" +ls[i].length()+ls[i].lastModified()/1000+",\011"+ls[i].getName()+"\015\012";
+						else if (ls[i].isDirectory()) 
+							currentFiles = "+/,m"+ls[i].lastModified()/1000+",\011"+ls[i].getName()+"\015\012";
+				this.dw.writeByte(currentFiles);
+				this.dr.flush();
+				}
+				this.ds.close();
+				System.out.println("226 : data connexion closed")
+			}
+			else{
+				System.out.println("530 : Not logged");
+			}
+		}
+		catch(IOException e){
+			System.out.println("425 : Can't open data connexion");
+		}
 		
 		return "TRUE";
 	}
@@ -142,6 +171,8 @@ public class FtpRequest implements Runnable {
 		try {
 			this.ActiveConnection = false;
 			s.close();
+			r.close();
+			w.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -154,6 +185,7 @@ public class FtpRequest implements Runnable {
 			if (auth)
 				processPASS();
 			};
+		this.processRequest();
 		};
 		processQUIT();
 	}
