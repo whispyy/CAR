@@ -16,7 +16,6 @@ public class Serveur {
 
 	public static void main(String args[]){	
 		int port = Authentification.port;
-		int nbLimit = Authentification.nbLimit;
 		lancementServeur();
 
 		try {

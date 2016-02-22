@@ -8,7 +8,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -83,6 +84,8 @@ public class FtpRequest implements Runnable {
 			processLIST();
 		if (cmd.contains("QUIT"))
 			processQUIT();
+		if (cmd.contains("PWD"))
+				processPWD();
 	}
 
 	private void processUSER(){
@@ -104,9 +107,9 @@ public class FtpRequest implements Runnable {
 	}
 
 	private void processRETR(){
-		Path file = Paths.get(this.path);
-
         try {
+        	URI path2 = new URI(this.path);
+			Path file = Paths.get(path2);
             if (this.auth) {
                 byte[] dataArray = Files.readAllBytes(file.resolve(this.data));
 
@@ -128,31 +131,39 @@ public class FtpRequest implements Runnable {
                 System.out.println("530 : Bad connexion");
 
             } 
-        catch (IOException e) {System.out.println("550 : error connexion or login");}
+        catch (IOException e) {System.out.println("550 : error connexion or login");} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private String processSTOR() throws IOException, IOException{
-		Path file = Paths.get(this.path);
-		
-		if (this.auth){
-			this.ds = new Socket(InetAddress.getByName(this.adr), this.port);
-			this.dr = new DataInputStream(this.ds.getInputStream());
-			this.dw = new DataOutputStream(this.ds.getOutputStream());
-			System.out.println("150 : File OK");
+		try {
+			URI path2 = new URI(this.path);
+			Path file = Paths.get(path2);
+			if (this.auth){
+				this.ds = new Socket(InetAddress.getByName(this.adr), this.port);
+				this.dr = new DataInputStream(this.ds.getInputStream());
+				this.dw = new DataOutputStream(this.ds.getOutputStream());
+				System.out.println("150 : File OK");
 			
-			FileOutputStream fos = new FileOutputStream(file.resolve(this.data).toString());
-			int dr2;
+				FileOutputStream fos = new FileOutputStream(file.resolve(this.data).toString());
+				int dr2;
 			
-			while ((dr2 = this.dr.read()) != -1){
-				fos.write(dr2);
+				while ((dr2 = this.dr.read()) != -1){
+					fos.write(dr2);
+				}
+				fos.close();
+				this.dr.close();
+				this.ds.close();
+				System.out.println("226 : Closing data connection.");
 			}
-			fos.close();
-			this.dr.close();
-			this.ds.close();
-			System.out.println("226 : Closing data connection.");
+			else
+				System.out.println("530 : Bad connexion");
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		else
-			System.out.println("530 : Bad connexion");
 		return "TRUE";
 	}
 
@@ -201,7 +212,7 @@ public class FtpRequest implements Runnable {
 		}
 	}
 
-	private void processPWD (){
+	private void processPWD(){
         System.out.println("257 :"+this.path);
     }
 
