@@ -48,13 +48,13 @@ public class FtpRequest implements Runnable {
 	public FtpRequest(Socket s){
 		this.s = s;
 		this.adr = this.s.getLocalAddress().getHostAddress();
-		this.port = 3000;
+		this.port = s.getPort();
 		this.auth = false;
 		this.terminateConnexion = false;
 		try {
 			r = new BufferedReader(new InputStreamReader(this.s.getInputStream()));
 			w = new OutputStreamWriter(this.s.getOutputStream());
-			System.out.println("220 : Connexion ok, enter login");
+			sendToClient(220,"220 : Connexion ok, enter login");
 		}
 		catch (IOException e){
 			System.out.println(e);
@@ -71,25 +71,20 @@ public class FtpRequest implements Runnable {
 	 * passer la main à une autre méthode en fonction de la commande
 	 * appelée par le client
 	 */
-	public void processRequest(){
-		String req;
-
-		try {
-			for(req = this.r.readLine(); req != null; req= this.r.readLine()){
-				if (req.split(" ").length > 1){
-					this.cmd = req.split(" ")[0];
-					this.data = req.split(" ")[1];
-				}
-				else{
-					this.cmd = req;
-					this.data ="";
-				}
-				System.out.println("cmd :"+cmd);
-				System.out.println("data :"+data);
+	public void processRequest(String req){
+		while(req != null){
+			if (req.split(" ").length > 1){
+				this.cmd = req.split(" ")[0];
+				this.data = req.split(" ")[1];
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+			else{
+				this.cmd = req;
+				this.data ="";
+			}
+			System.out.println("cmd :"+cmd);
+			System.out.println("data :"+data);
 		}
+
 		if (cmd.contains("USER"))
 			processUSER();
 		if (cmd.contains("PASS"))
@@ -106,7 +101,7 @@ public class FtpRequest implements Runnable {
 			processPWD();
 	}
 
-	
+
 	/**
 	 * Cette méthode vérifie que le username est correct
 	 */
@@ -119,7 +114,7 @@ public class FtpRequest implements Runnable {
 			System.out.println("530 : bad user");
 	}
 
-	
+
 	/**
 	 * Cette méthode vérifie que le password associé au username
 	 * entré précedemment correspond bien
@@ -133,7 +128,7 @@ public class FtpRequest implements Runnable {
 		}
 	}
 
-	
+
 	/**
 	 * Cette méthode permet au client de récupérer un fichier sur le serveur
 	 */
@@ -208,7 +203,7 @@ public class FtpRequest implements Runnable {
 		return "TRUE";
 	}
 
-	
+
 	/**
 	 * Cette méthode permet de lister le contenu du répertoire courant
 	 * se trouvant sur le serveur
@@ -248,7 +243,7 @@ public class FtpRequest implements Runnable {
 		return "TRUE";
 	}
 
-	
+
 	/**
 	 * Cette méthode permet de se déconnecter du serveur
 	 */
@@ -263,7 +258,7 @@ public class FtpRequest implements Runnable {
 		}
 	}
 
-	
+
 	/**
 	 * Cette méthode affiche le contenu du répertoire courant 
 	 */
@@ -271,17 +266,34 @@ public class FtpRequest implements Runnable {
 		System.out.println("257 :"+this.path);
 	}
 
-	
+	protected void sendToClient(int code, String msg) {
+		try {
+			this.w.write(code + " " + msg + " \n");
+			System.out.println("Messeage send :" + code + " " + msg);
+			this.w.flush();
+		} catch (IOException e) {
+			this.terminateConnexion = true;
+			e.printStackTrace();
+		}
+	}
+
+
 	/**
 	 * Cette méthode lance le thread de FtpRequest
 	 */
 	public void run() {
 		while(true){
+			try {
+				String req = this.r.readLine();
+				this.processRequest(req);
+			
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 			if (this.terminateConnexion)
 				break;
-
-			this.processRequest();
 			
-		};
+		}
 	}
 }
