@@ -201,6 +201,10 @@ public class FtpRequest implements Runnable {
 		}
 	}
 
+	private void processPWD (){
+        System.out.println("257 :"+this.path);
+    }
+
 	public void run() {
 		System.out.println("Tentative de connexion entrante");
 		while(ActiveConnection){
