@@ -54,7 +54,6 @@ public class FtpRequest implements Runnable {
 		this.user = "user";
 		this.pass = "pass";
 		this.path = System.getProperty(user+".home");
-		new Thread(this).start();
 	}
 
 
