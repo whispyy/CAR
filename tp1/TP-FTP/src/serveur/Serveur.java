@@ -22,7 +22,7 @@ public class Serveur {
 		System.out.println("******************************************************************************");
 	}
 
-	
+
 	/**
 	 * Cette méthode initialise les variables indispensables au lancement du
 	 * serveur en allant chercher les données utiles dans la classe Authentification
@@ -35,7 +35,7 @@ public class Serveur {
 		System.out.println("FTP Server started on port n°"+port+".");
 	}
 
-	
+
 	/**
 	 * Cette méthode s'occupe de la mise en ligne du serveur
 	 */

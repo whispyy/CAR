@@ -103,8 +103,8 @@ public class FtpRequest implements Runnable {
 		if (cmd.contains("SYST"))
 			processSYST();
 		if (cmd.contains("FEAT"))
-				processFEAT();
-			
+			processFEAT();
+
 	}
 
 
@@ -150,7 +150,7 @@ public class FtpRequest implements Runnable {
 			processQUIT();
 		}
 	}
-	
+
 	/**
 	 * Cette methode demande des informations concernant le système d'exploitation
 	 * du serveur.
@@ -158,7 +158,7 @@ public class FtpRequest implements Runnable {
 	private void processSYST(){
 		sendToClient(215, "UNIX TYPE: L8");
 	}
-	
+
 	/**
 	 * Commande permettant d'obtenir des informations sur l'existence d'extensions.
 	 * Ici on renverra 211.
@@ -166,7 +166,7 @@ public class FtpRequest implements Runnable {
 	private void processFEAT(){
 		sendToClient(211, "No Features");
 	}
-	
+
 	/**
 	 * Cette méthode permet au client de récupérer un fichier sur le serveur
 	 */
@@ -197,9 +197,9 @@ public class FtpRequest implements Runnable {
 		} 
 		catch (IOException e) {
 			System.out.println("550 : error connexion or login");} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 
 	/**
@@ -314,7 +314,6 @@ public class FtpRequest implements Runnable {
 	protected void sendToClient(int code, String msg) {
 		try {
 			this.w.write(code + " " + msg + " \n");
-			System.out.println("Messeage send :" + code + " " + msg);
 			this.w.flush();
 		} catch (IOException e) {
 			this.terminateConnexion = true;
@@ -331,14 +330,14 @@ public class FtpRequest implements Runnable {
 			try {
 				String req = this.r.readLine();
 				this.processRequest(req);
-			
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
+
 			if (this.terminateConnexion)
 				break;
-			
+
 		}
 	}
 }
