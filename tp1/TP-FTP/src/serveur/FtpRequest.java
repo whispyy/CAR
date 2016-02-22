@@ -17,6 +17,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import main.Authentification;
+
 //La classe FtpRequest prend la main sur le serveur à chaque client se connectant
 //Cette classe regroupe toutes les méthodes et gère l'intéraction avec l'utilisateur
 public class FtpRequest implements Runnable {
@@ -38,6 +40,7 @@ public class FtpRequest implements Runnable {
 
 	private String data;
 	private String cmd;
+	private int nbConnect;
 
 
 
@@ -51,6 +54,7 @@ public class FtpRequest implements Runnable {
 		this.port = s.getPort();
 		this.auth = false;
 		this.terminateConnexion = false;
+		this.nbConnect = 0;
 		try {
 			r = new BufferedReader(new InputStreamReader(this.s.getInputStream()));
 			w = new OutputStreamWriter(this.s.getOutputStream());
@@ -59,9 +63,6 @@ public class FtpRequest implements Runnable {
 		catch (IOException e){
 			System.out.println(e);
 		}
-		this.user = "user";
-		this.pass = "pass";
-		this.path = System.getProperty(user+".home");
 	}
 
 
@@ -99,8 +100,11 @@ public class FtpRequest implements Runnable {
 			processQUIT();
 		if (cmd.contains("PWD"))
 			processPWD();
-		if(cmd.contains("SYST"))
+		if (cmd.contains("SYST"))
 			processSYST();
+		if (cmd.contains("FEAT"))
+				processFEAT();
+			
 	}
 
 
@@ -108,25 +112,42 @@ public class FtpRequest implements Runnable {
 	 * Cette méthode vérifie que le username est correct
 	 */
 	private void processUSER(){
-		if (!this.auth && this.user.equals(this.data)){
-			this.auth = true;
-			sendToClient(331," user ok");
+		if (!this.auth){
+			for (int i=0; i < Authentification.username.length; i++){
+				if ((this.data.equals(Authentification.username[i]))){
+					this.user = Authentification.username[i];
+					this.pass = Authentification.password[i];
+					this.auth = true;
+					sendToClient(331," user ok");
+					this.nbConnect += 1;
+					this.path = "/home/"+this.user;
+				}		
+			}
+			if(!this.auth){
+				sendToClient(530," bad user");
+				processQUIT();
+			}
 		}
-		else
+		else{
 			sendToClient(530," bad user");
+			processQUIT();
+		}
 	}
 
 
 	/**
 	 * Cette méthode vérifie que le password associé au username
-	 * entré précedemment correspond bien
+	 * entré précedemment correspond bien.
+	 * Elle vérifie également que le nombre de personne connecté est 
+	 * inférieur ou égale à la limite définie dans Authentification.
 	 */
 	private void processPASS(){
-		if (this.auth && this.pass.equals(this.data))
+		if (this.auth && this.pass.equals(this.data) && this.nbConnect <= Authentification.nbLimit){
 			sendToClient(230," login ok");
+		}
 		else{
 			sendToClient(530," bad password");
-			//processQuit ?
+			processQUIT();
 		}
 	}
 	
@@ -136,6 +157,14 @@ public class FtpRequest implements Runnable {
 	 */
 	private void processSYST(){
 		sendToClient(215, "UNIX TYPE: L8");
+	}
+	
+	/**
+	 * Commande permettant d'obtenir des informations sur l'existence d'extensions.
+	 * Ici on renverra 211.
+	 */
+	public void processFEAT(){
+		sendToClient(211, "No Features");
 	}
 	
 	/**
@@ -174,10 +203,9 @@ public class FtpRequest implements Runnable {
 	}
 
 	/**
-	 * Cette méthode permet au client de déposer un fichier sur le serveur
-	 * @return 
+	 * Cette méthode permet au client de déposer un fichier sur le serveur.
 	 */
-	private String processSTOR(){
+	private void processSTOR(){
 		try {
 			URI path2 = new URI(this.path);
 			Path file = Paths.get(path2);
@@ -210,16 +238,14 @@ public class FtpRequest implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "TRUE";
 	}
 
 
 	/**
 	 * Cette méthode permet de lister le contenu du répertoire courant
-	 * se trouvant sur le serveur
-	 * @return la liste des fichiers du répertoire courant
+	 * se trouvant sur le serveur.
 	 */
-	private String processLIST(){
+	private void processLIST(){
 		File fichier = new File(this.path);
 		File[] ls = fichier.listFiles();
 		String currentFiles = "";
@@ -229,7 +255,7 @@ public class FtpRequest implements Runnable {
 			this.dw = new DataOutputStream(this.ds.getOutputStream());
 
 			if (this.auth){
-				sendToClient(150,"150 : Files OK");
+				sendToClient(150," Files OK");
 				for (int i=0; i <ls.length; i++){
 					if (!ls[i].isHidden())
 						if (!ls[i].isFile())
@@ -240,22 +266,22 @@ public class FtpRequest implements Runnable {
 					this.dw.flush();
 				}
 				this.ds.close();
-				sendToClient(226,"226 : data connexion closed");
+				sendToClient(226," data connexion closed");
 			}
 			else{
-				sendToClient(226,"530 : Not logged");
+				sendToClient(226," Not logged");
 			}
 		}
 		catch(IOException e){
-			System.out.println("425 : Can't open data connexion");
+			sendToClient(425," Can't open data connexion");
 		}
-
-		return "TRUE";
 	}
 
 
 	/**
-	 * Cette méthode permet de se déconnecter du serveur
+	 * Cette méthode permet de se déconnecter du serveur.
+	 * Elle ferme toutes les connexions et décrémente le compteur de 
+	 * personnes connectés si celles si étaient authentifiés.
 	 */
 	private void processQUIT(){
 		try {
@@ -265,6 +291,8 @@ public class FtpRequest implements Runnable {
 			r.close();
 			w.close();
 			System.out.println("User : '"+this.user+"' disconnected !");
+			if (this.nbConnect > 0 && this.auth)
+				this.nbConnect-=1;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -275,7 +303,7 @@ public class FtpRequest implements Runnable {
 	 * Cette méthode affiche le contenu du répertoire courant 
 	 */
 	private void processPWD(){
-		sendToClient(257,this.path);
+		sendToClient(257,"pwd : "+this.path);
 	}
 
 	/**
