@@ -54,7 +54,7 @@ public class FtpRequest implements Runnable {
 		try {
 			r = new BufferedReader(new InputStreamReader(this.s.getInputStream()));
 			w = new OutputStreamWriter(this.s.getOutputStream());
-			sendToClient(220,"220 : Connexion ok, enter login");
+			sendToClient(220," Connexion ok, enter login");
 		}
 		catch (IOException e){
 			System.out.println(e);
@@ -72,7 +72,7 @@ public class FtpRequest implements Runnable {
 	 * appelée par le client
 	 */
 	public void processRequest(String req){
-		while(req != null){
+		if(req != null){
 			if (req.split(" ").length > 1){
 				this.cmd = req.split(" ")[0];
 				this.data = req.split(" ")[1];
@@ -99,6 +99,8 @@ public class FtpRequest implements Runnable {
 			processQUIT();
 		if (cmd.contains("PWD"))
 			processPWD();
+		if(cmd.contains("SYST"))
+			processSYST();
 	}
 
 
@@ -108,10 +110,10 @@ public class FtpRequest implements Runnable {
 	private void processUSER(){
 		if (!this.auth && this.user.equals(this.data)){
 			this.auth = true;
-			System.out.println("331 : user ok");
+			sendToClient(331," user ok");
 		}
 		else
-			System.out.println("530 : bad user");
+			sendToClient(530," bad user");
 	}
 
 
@@ -121,14 +123,21 @@ public class FtpRequest implements Runnable {
 	 */
 	private void processPASS(){
 		if (this.auth && this.pass.equals(this.data))
-			System.out.println("230 : login ok");
+			sendToClient(230," login ok");
 		else{
-			System.out.println("530 : bad password");
+			sendToClient(530," bad password");
 			//processQuit ?
 		}
 	}
-
-
+	
+	/**
+	 * Cette methode demande des informations concernant le système d'exploitation
+	 * du serveur.
+	 */
+	private void processSYST(){
+		sendToClient(215, "UNIX TYPE: L8");
+	}
+	
 	/**
 	 * Cette méthode permet au client de récupérer un fichier sur le serveur
 	 */
@@ -144,20 +153,21 @@ public class FtpRequest implements Runnable {
 				this.dr = new DataInputStream(this.ds.getInputStream());
 				this.dw = new DataOutputStream(this.ds.getOutputStream());
 
-				System.out.println("150 : File OK");
+				sendToClient(150," File OK");
 
 				for (int i = 0; i < dataArray.length; i++) {
 					this.dw.writeByte(dataArray[i]);
 					this.dw.flush();
 				}
 				this.ds.close();
-				System.out.println("226 : data closed");
+				sendToClient(226," data closed");
 			}
 			else
-				System.out.println("530 : Bad connexion");
+				sendToClient(530," Bad connexion");
 
 		} 
-		catch (IOException e) {System.out.println("550 : error connexion or login");} catch (URISyntaxException e) {
+		catch (IOException e) {
+			System.out.println("550 : error connexion or login");} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -175,7 +185,7 @@ public class FtpRequest implements Runnable {
 				this.ds = new Socket(InetAddress.getByName(this.adr), this.port);
 				this.dr = new DataInputStream(this.ds.getInputStream());
 				this.dw = new DataOutputStream(this.ds.getOutputStream());
-				System.out.println("150 : File OK");
+				sendToClient(150," File OK");
 
 				FileOutputStream fos = new FileOutputStream(file.resolve(this.data).toString());
 				int dr2;
@@ -186,10 +196,10 @@ public class FtpRequest implements Runnable {
 				fos.close();
 				this.dr.close();
 				this.ds.close();
-				System.out.println("226 : Closing data connection.");
+				sendToClient(226," Closing data connection.");
 			}
 			else
-				System.out.println("530 : Bad connexion");
+				sendToClient(530," Bad connexion");
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -219,7 +229,7 @@ public class FtpRequest implements Runnable {
 			this.dw = new DataOutputStream(this.ds.getOutputStream());
 
 			if (this.auth){
-				System.out.println("150 : Files OK");
+				sendToClient(150,"150 : Files OK");
 				for (int i=0; i <ls.length; i++){
 					if (!ls[i].isHidden())
 						if (!ls[i].isFile())
@@ -230,10 +240,10 @@ public class FtpRequest implements Runnable {
 					this.dw.flush();
 				}
 				this.ds.close();
-				System.out.println("226 : data connexion closed");
+				sendToClient(226,"226 : data connexion closed");
 			}
 			else{
-				System.out.println("530 : Not logged");
+				sendToClient(226,"530 : Not logged");
 			}
 		}
 		catch(IOException e){
@@ -250,9 +260,11 @@ public class FtpRequest implements Runnable {
 	private void processQUIT(){
 		try {
 			this.terminateConnexion = true;
+			sendToClient(221, "terminated connexion");
 			s.close();
 			r.close();
 			w.close();
+			System.out.println("User : '"+this.user+"' disconnected !");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -263,9 +275,14 @@ public class FtpRequest implements Runnable {
 	 * Cette méthode affiche le contenu du répertoire courant 
 	 */
 	private void processPWD(){
-		System.out.println("257 :"+this.path);
+		sendToClient(257,this.path);
 	}
 
+	/**
+	 * Methode permettant d'écrire un message au client
+	 * @param code un entier correspondant au code du message.
+	 * @param msg un chaine de caractère correspondant à l'intitulé du message.
+	 */
 	protected void sendToClient(int code, String msg) {
 		try {
 			this.w.write(code + " " + msg + " \n");
