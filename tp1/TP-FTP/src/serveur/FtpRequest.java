@@ -46,7 +46,7 @@ public class FtpRequest implements Runnable {
 
 	/**
 	 * Construit uune instance de FtpRequest 
-	 * @param s la socket permettant l'échange entre serveur et client
+	 * @param s : socket permettant l'échange entre serveur et client
 	 */
 	public FtpRequest(Socket s){
 		this.s = s;
@@ -163,7 +163,7 @@ public class FtpRequest implements Runnable {
 	 * Commande permettant d'obtenir des informations sur l'existence d'extensions.
 	 * Ici on renverra 211.
 	 */
-	public void processFEAT(){
+	private void processFEAT(){
 		sendToClient(211, "No Features");
 	}
 	
