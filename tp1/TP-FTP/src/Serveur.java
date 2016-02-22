@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 
 
 public class Serveur {
@@ -26,7 +25,7 @@ public class Serveur {
 
 			while (true){
 				try {
-					new FtpRequest(soc.accept());
+					new Thread(new FtpRequest(soc.accept())).start();
 				} catch (IOException e) {
 					System.out.println("main::"+e.getMessage());
 				}

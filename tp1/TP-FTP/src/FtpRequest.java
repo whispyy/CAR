@@ -1,11 +1,14 @@
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -128,8 +131,28 @@ public class FtpRequest implements Runnable {
         catch (IOException e) {System.out.println("550 : error connexion or login");}
 	}
 
-	private String processSTOR(){
+	private String processSTOR() throws IOException, IOException{
+		Path file = Paths.get(this.path);
 		
+		if (this.auth){
+			this.ds = new Socket(InetAddress.getByName(this.adr), this.port);
+			this.dr = new DataInputStream(this.ds.getInputStream());
+			this.dw = new DataOutputStream(this.ds.getOutputStream());
+			System.out.println("150 : File OK");
+			
+			FileOutputStream fos = new FileOutputStream(file.resolve(this.data).toString());
+			int dr2;
+			
+			while ((dr2 = this.dr.read()) != -1){
+				fos.write(dr2);
+			}
+			fos.close();
+			this.dr.close();
+			this.ds.close();
+			System.out.println("226 : Closing data connection.");
+		}
+		else
+			System.out.println("530 : Bad connexion");
 		return "TRUE";
 	}
 
@@ -139,22 +162,22 @@ public class FtpRequest implements Runnable {
 		String currentFiles = "";
 
 		try{
-			this.dr = new OutputStream(this.ds.getInputStream());
+			this.dr = new DataInputStream(this.ds.getInputStream());
 			this.dw = new DataOutputStream(this.ds.getOutputStream());
 
 			if (this.auth){
-				this.w.println("150 : Files OK");
+				System.out.println("150 : Files OK");
 				for (int i=0; i <ls.length; i++){
-					if (!ls[i].isHiddent())
+					if (!ls[i].isHidden())
 						if (!ls[i].isFile())
 							currentFiles = "+s" +ls[i].length()+ls[i].lastModified()/1000+",\011"+ls[i].getName()+"\015\012";
 						else if (ls[i].isDirectory()) 
 							currentFiles = "+/,m"+ls[i].lastModified()/1000+",\011"+ls[i].getName()+"\015\012";
-				this.dw.writeByte(currentFiles);
-				this.dr.flush();
+				this.dw.writeBytes(currentFiles);
+				this.dw.flush();
 				}
 				this.ds.close();
-				System.out.println("226 : data connexion closed")
+				System.out.println("226 : data connexion closed");
 			}
 			else{
 				System.out.println("530 : Not logged");
@@ -179,13 +202,18 @@ public class FtpRequest implements Runnable {
 	}
 
 	public void run() {
-		System.out.println("connecté mais tu vas jarter");
+		System.out.println("Tentative de connexion entrante");
 		while(ActiveConnection){
 			processUSER();
 			if (auth)
 				processPASS();
-			};
-		this.processRequest();
+				System.out.println("mot de passe accepté");
+			try {
+				this.processRequest();
+				System.out.println("processRequest passé");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		};
 		processQUIT();
 	}
