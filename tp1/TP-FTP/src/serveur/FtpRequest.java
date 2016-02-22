@@ -17,9 +17,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+//La classe FtpRequest prend la main sur le serveur à chaque client se connectant
+//Cette classe regroupe toutes les méthodes et gère l'intéraction avec l'utilisateur
 public class FtpRequest implements Runnable {
 
-	private Socket s;
+	private Socket s; 
 	private	String adr;
 	private int port;
 	private boolean auth;
@@ -39,6 +41,10 @@ public class FtpRequest implements Runnable {
 
 
 
+	/**
+	 * Construit uune instance de FtpRequest 
+	 * @param s la socket permettant l'échange entre serveur et client
+	 */
 	public FtpRequest(Socket s){
 		this.s = s;
 		this.adr = this.s.getLocalAddress().getHostAddress();
@@ -60,6 +66,11 @@ public class FtpRequest implements Runnable {
 
 
 
+	/**
+	 * Chaque commande est envoyée à cette méthode qui va ensuite 
+	 * passer la main à une autre méthode en fonction de la commande
+	 * appelée par le client
+	 */
 	public void processRequest(){
 		String req;
 
@@ -95,6 +106,10 @@ public class FtpRequest implements Runnable {
 			processPWD();
 	}
 
+	
+	/**
+	 * Cette méthode vérifie que le username est correct
+	 */
 	private void processUSER(){
 		if (!this.auth && this.user.equals(this.data)){
 			this.auth = true;
@@ -104,6 +119,11 @@ public class FtpRequest implements Runnable {
 			System.out.println("530 : bad user");
 	}
 
+	
+	/**
+	 * Cette méthode vérifie que le password associé au username
+	 * entré précedemment correspond bien
+	 */
 	private void processPASS(){
 		if (this.auth && this.pass.equals(this.data))
 			System.out.println("230 : login ok");
@@ -113,6 +133,10 @@ public class FtpRequest implements Runnable {
 		}
 	}
 
+	
+	/**
+	 * Cette méthode permet au client de récupérer un fichier sur le serveur
+	 */
 	private void processRETR(){
 		try {
 			URI path2 = new URI(this.path);
@@ -144,6 +168,10 @@ public class FtpRequest implements Runnable {
 		}
 	}
 
+	/**
+	 * Cette méthode permet au client de déposer un fichier sur le serveur
+	 * @return 
+	 */
 	private String processSTOR(){
 		try {
 			URI path2 = new URI(this.path);
@@ -180,6 +208,12 @@ public class FtpRequest implements Runnable {
 		return "TRUE";
 	}
 
+	
+	/**
+	 * Cette méthode permet de lister le contenu du répertoire courant
+	 * se trouvant sur le serveur
+	 * @return la liste des fichiers du répertoire courant
+	 */
 	private String processLIST(){
 		File fichier = new File(this.path);
 		File[] ls = fichier.listFiles();
@@ -214,6 +248,10 @@ public class FtpRequest implements Runnable {
 		return "TRUE";
 	}
 
+	
+	/**
+	 * Cette méthode permet de se déconnecter du serveur
+	 */
 	private void processQUIT(){
 		try {
 			this.terminateConnexion = true;
@@ -225,10 +263,18 @@ public class FtpRequest implements Runnable {
 		}
 	}
 
+	
+	/**
+	 * Cette méthode affiche le contenu du répertoire courant 
+	 */
 	private void processPWD(){
 		System.out.println("257 :"+this.path);
 	}
 
+	
+	/**
+	 * Cette méthode lance le thread de FtpRequest
+	 */
 	public void run() {
 		while(true){
 			if (this.terminateConnexion)
