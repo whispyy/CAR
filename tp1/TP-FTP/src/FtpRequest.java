@@ -10,17 +10,18 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class FtpRequest implements Runnable {
 
-	private boolean ActiveConnection;
 	private Socket s;
 	private	String adr;
 	private int port;
 	private boolean auth;
+	private boolean terminateConnexion;
 	private BufferedReader r; // in
 	private OutputStreamWriter w; // out
 	private String user;
@@ -33,44 +34,49 @@ public class FtpRequest implements Runnable {
 
 	private String data;
 	private String cmd;
-	
-	
-	
+
+
+
 	public FtpRequest(Socket s){
 		this.s = s;
 		this.adr = this.s.getLocalAddress().getHostAddress();
 		this.port = 3000;
 		this.auth = false;
+		this.terminateConnexion = false;
 		try {
 			r = new BufferedReader(new InputStreamReader(this.s.getInputStream()));
 			w = new OutputStreamWriter(this.s.getOutputStream());
+			System.out.println("220 : Connexion ok, enter login");
 		}
 		catch (IOException e){
 			System.out.println(e);
 		}
-		this.ActiveConnection = true;
 		this.user = "user";
 		this.pass = "pass";
 		this.path = System.getProperty(user+".home");
 		new Thread(this).start();
 	}
 
-	
-	
-	public void processRequest() throws IOException{
-		String req = null;
 
-		while((req = this.r.readLine()) != null){
-			if (req.split(" ").length > 1){
-				this.cmd = req.split(" ")[0];
-				this.data = req.split(" ")[1];
+
+	public void processRequest(){
+		String req;
+
+		try {
+			for(req = this.r.readLine(); req != null; req= this.r.readLine()){
+				if (req.split(" ").length > 1){
+					this.cmd = req.split(" ")[0];
+					this.data = req.split(" ")[1];
+				}
+				else{
+					this.cmd = req;
+					this.data ="";
+				}
+				System.out.println("cmd :"+cmd);
+				System.out.println("data :"+data);
 			}
-			else{
-				this.cmd = req;
-				this.data ="";
-			}
-			System.out.println("cmd :"+cmd);
-			System.out.println("data :"+data);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		if (cmd.contains("USER"))
 			processUSER();
@@ -85,7 +91,7 @@ public class FtpRequest implements Runnable {
 		if (cmd.contains("QUIT"))
 			processQUIT();
 		if (cmd.contains("PWD"))
-				processPWD();
+			processPWD();
 	}
 
 	private void processUSER(){
@@ -102,42 +108,42 @@ public class FtpRequest implements Runnable {
 			System.out.println("230 : login ok");
 		else{
 			System.out.println("530 : bad password");
-			this.ActiveConnection = false;
+			//processQuit ?
 		}
 	}
 
 	private void processRETR(){
-        try {
-        	URI path2 = new URI(this.path);
+		try {
+			URI path2 = new URI(this.path);
 			Path file = Paths.get(path2);
-            if (this.auth) {
-                byte[] dataArray = Files.readAllBytes(file.resolve(this.data));
+			if (this.auth) {
+				byte[] dataArray = Files.readAllBytes(file.resolve(this.data));
 
-                this.ds = new Socket(InetAddress.getByName(this.adr), this.port);
+				this.ds = new Socket(InetAddress.getByName(this.adr), this.port);
 
-                this.dr = new DataInputStream(this.ds.getInputStream());
-                this.dw = new DataOutputStream(this.ds.getOutputStream());
+				this.dr = new DataInputStream(this.ds.getInputStream());
+				this.dw = new DataOutputStream(this.ds.getOutputStream());
 
-                System.out.println("150 : File OK");
+				System.out.println("150 : File OK");
 
-                for (int i = 0; i < dataArray.length; i++) {
-                    this.dw.writeByte(dataArray[i]);
-                    this.dw.flush();
-                }
-                this.ds.close();
-                System.out.println("226 : data closed");
-            }
-            else
-                System.out.println("530 : Bad connexion");
+				for (int i = 0; i < dataArray.length; i++) {
+					this.dw.writeByte(dataArray[i]);
+					this.dw.flush();
+				}
+				this.ds.close();
+				System.out.println("226 : data closed");
+			}
+			else
+				System.out.println("530 : Bad connexion");
 
-            } 
-        catch (IOException e) {System.out.println("550 : error connexion or login");} catch (URISyntaxException e) {
+		} 
+		catch (IOException e) {System.out.println("550 : error connexion or login");} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	private String processSTOR() throws IOException, IOException{
+	private String processSTOR(){
 		try {
 			URI path2 = new URI(this.path);
 			Path file = Paths.get(path2);
@@ -146,10 +152,10 @@ public class FtpRequest implements Runnable {
 				this.dr = new DataInputStream(this.ds.getInputStream());
 				this.dw = new DataOutputStream(this.ds.getOutputStream());
 				System.out.println("150 : File OK");
-			
+
 				FileOutputStream fos = new FileOutputStream(file.resolve(this.data).toString());
 				int dr2;
-			
+
 				while ((dr2 = this.dr.read()) != -1){
 					fos.write(dr2);
 				}
@@ -161,6 +167,12 @@ public class FtpRequest implements Runnable {
 			else
 				System.out.println("530 : Bad connexion");
 		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -184,8 +196,8 @@ public class FtpRequest implements Runnable {
 							currentFiles = "+s" +ls[i].length()+ls[i].lastModified()/1000+",\011"+ls[i].getName()+"\015\012";
 						else if (ls[i].isDirectory()) 
 							currentFiles = "+/,m"+ls[i].lastModified()/1000+",\011"+ls[i].getName()+"\015\012";
-				this.dw.writeBytes(currentFiles);
-				this.dw.flush();
+					this.dw.writeBytes(currentFiles);
+					this.dw.flush();
 				}
 				this.ds.close();
 				System.out.println("226 : data connexion closed");
@@ -197,13 +209,13 @@ public class FtpRequest implements Runnable {
 		catch(IOException e){
 			System.out.println("425 : Can't open data connexion");
 		}
-		
+
 		return "TRUE";
 	}
 
 	private void processQUIT(){
 		try {
-			this.ActiveConnection = false;
+			this.terminateConnexion = true;
 			s.close();
 			r.close();
 			w.close();
@@ -213,23 +225,16 @@ public class FtpRequest implements Runnable {
 	}
 
 	private void processPWD(){
-        System.out.println("257 :"+this.path);
-    }
+		System.out.println("257 :"+this.path);
+	}
 
 	public void run() {
-		System.out.println("Tentative de connexion entrante");
-		while(ActiveConnection){
-			processUSER();
-			if (auth)
-				processPASS();
-				System.out.println("mot de passe accepté");
-			try {
-				this.processRequest();
-				System.out.println("processRequest passé");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		while(true){
+			if (this.terminateConnexion)
+				break;
+
+			this.processRequest();
+			
 		};
-		processQUIT();
 	}
 }
