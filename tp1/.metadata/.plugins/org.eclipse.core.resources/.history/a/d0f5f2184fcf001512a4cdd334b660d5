@@ -1,8 +1,0 @@
-
-public class Authentification {
-	
-	//Liste factice d'utilisateurs avec leur mdp associé
-	public static String[] username = {"admin", "user", "malik", "jf"};
-	public static String[] password = {"admin", "user", "malik", "jf"};
-
-}

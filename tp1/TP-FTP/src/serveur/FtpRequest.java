@@ -104,6 +104,9 @@ public class FtpRequest implements Runnable {
 			processSYST();
 		if (cmd.contains("FEAT"))
 			processFEAT();
+		if (cmd.contains("PORT"))
+			processPORT();
+
 
 	}
 
@@ -165,6 +168,16 @@ public class FtpRequest implements Runnable {
 	 */
 	private void processFEAT(){
 		sendToClient(211, "No Features");
+	}
+
+	/**
+	 * Commande vérifiant l'adresse et le port du serveur
+	 */
+	private void processPORT(){
+		String Host[] = this.data.split(",");
+		this.adr = Host[0]+"."+Host[1]+"."+Host[2]+"."+Host[3] ;
+		this.port = Integer.parseInt(Host[4])*256 + Integer.parseInt(Host[5]);
+		sendToClient(200, "Host & Port ok");
 	}
 
 	/**
@@ -251,17 +264,24 @@ public class FtpRequest implements Runnable {
 		String currentFiles = "";
 
 		try{
+			this.ds = new Socket(InetAddress.getByName(this.adr), this.port);
 			this.dr = new DataInputStream(this.ds.getInputStream());
 			this.dw = new DataOutputStream(this.ds.getOutputStream());
 
 			if (this.auth){
 				sendToClient(150," Files OK");
-				for (int i=0; i <ls.length; i++){
-					if (!ls[i].isHidden())
-						if (!ls[i].isFile())
-							currentFiles = "+s" +ls[i].length()+ls[i].lastModified()/1000+",\011"+ls[i].getName()+"\015\012";
-						else if (ls[i].isDirectory()) 
-							currentFiles = "+/,m"+ls[i].lastModified()/1000+",\011"+ls[i].getName()+"\015\012";
+				if (ls != null){
+					for (int i=0; i < ls.length; i++){
+						if (!ls[i].isHidden())
+							if (!ls[i].isFile())
+								currentFiles = "+s" +ls[i].length()+ls[i].lastModified()/1000+",\011"+ls[i].getName()+"\015\012";
+							else if (ls[i].isDirectory()) 
+								currentFiles = "+/,m"+ls[i].lastModified()/1000+",\011"+ls[i].getName()+"\015\012";
+						this.dw.writeBytes(currentFiles);
+						this.dw.flush();
+					}
+				}
+				else {
 					this.dw.writeBytes(currentFiles);
 					this.dw.flush();
 				}
