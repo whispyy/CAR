@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
+import exemple.HelloWorldResource;
 
 /**
  * Configuration de l'application.
@@ -31,8 +32,8 @@ public class Config {
 	 * Ajouter une ligne par classe de ressource REST.
 	 */
 	protected void addResources( List<Object> resources ) {
-		resources.add( new exemple.HelloWorldResource() );
-		resources.add( new tp2.FTPResource() );
+		resources.add( new HelloWorldResource() );
+		// resources.add( new MaClasseDeResource() );
 	}
 
 	/**
