@@ -1,5 +1,6 @@
 package config;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,6 +34,7 @@ public class Config {
 	protected void addResources( List<Object> resources ) {
 		resources.add( new exemple.HelloWorldResource() );
 		resources.add( new tp2.FTPResource() );
+
 	}
 
 	/**
