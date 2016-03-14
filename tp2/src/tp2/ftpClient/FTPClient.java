@@ -29,7 +29,7 @@ public class FTPClient{
     /**
      * Port de connexion
      */
-    private int port = 3000;
+    private int port = 21;
 
     /**
      * Adresse locale
@@ -65,7 +65,7 @@ public class FTPClient{
         //Ecriture
         out = new DataOutputStream(co.getOutputStream());
 
-        // Pour "attraper" le premier code de connexion (220)
+        // Obtenir le premier code de connexion (220)
         String s = in.readLine();
         System.out.println(s);
         commandes= new FTPCommandes(in, out);

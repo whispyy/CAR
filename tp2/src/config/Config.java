@@ -65,6 +65,4 @@ public class Config {
 	}	
 }
 
-@ApplicationPath("tp2")
-class JaxRsApiApplication extends Application {
-}
+
