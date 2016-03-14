@@ -17,8 +17,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import exemple.ftpClient.FTPClient;
-import exemple.ftpClient.FTPCommandes;
+import tp2.ftpClient.FTPClient;
+import tp2.ftpClient.FTPCommandes;
 
 /**
  * Created by durand on 08/03/16.
@@ -58,7 +58,7 @@ public class RessourcesFichiers {
                 "<title>Login</title>" +
                 " </head>" +
                 "<body>" +
-                " <form action=\"/rest/api/res/data\" method=\"POST\">" +
+                " <form action=\"/rest/tp2/res/data\" method=\"POST\">" +
                 "<label for=\"name\">Name</label>" +
                 "<input type=\"text\" name=\"name\" />" +
                 "<br/>" +
@@ -93,7 +93,7 @@ public class RessourcesFichiers {
                 "<title>Login</title>" +
                 " </head>" +
                 "<body>" +
-                " <form action=\"/rest/api/res/login\" method=\"GET\">" +
+                " <form action=\"/rest/tp2/res/login\" method=\"GET\">" +
                 "<label for=\"name\">Login fail !</label>" +
                 " <br/>" +
                 "<input type=\"submit\" value=\"Submit\" />" +
@@ -131,10 +131,10 @@ public class RessourcesFichiers {
             return logIn();
 
         if(this.commandes.CMDCWD("/data")){
-            return list(new File(this.commandes.getCurrentDir())) +"<form action=\"/rest/api/res/"+this.commandes.getCurrentDir()+"/add\">"+
+            return list(new File(this.commandes.getCurrentDir())) +"<form action=\"/rest/tp2/res/"+this.commandes.getCurrentDir()+"/add\">"+
                     "<input type=\"submit\" value=\"Add File\">"+
                     "</form>"+
-                    "<form action=\"/rest/api/res/logout\">"+
+                    "<form action=\"/rest/tp2/res/logout\">"+
                     "<input type=\"submit\" value=\"Logout\">"+
                     "</form></br>";
         }
@@ -157,7 +157,7 @@ public class RessourcesFichiers {
         if(this.commandes.CMDCWD("/data")){
             String result = searchFile(name);
             if(this.commandes.getCurrentDir().equals("data")){
-                result += "<form action=\"/rest/api/res/"+this.commandes.getCurrentDir()+"/"+name+"/edit\">"+
+                result += "<form action=\"/rest/tp2/res/"+this.commandes.getCurrentDir()+"/"+name+"/edit\">"+
                         "<input type=\"submit\" value=\"Edit\">"+
                         "</form>";
                 result += "<button onclick= \"p()\">Delete</button>"+
@@ -166,18 +166,18 @@ public class RessourcesFichiers {
                         "console.log(\"Ici\");"+
                         "xhr=window.ActiveXObject ? new ActiveXObject(\"Microsoft.XMLHTTP\") : new XMLHttpRequest();"+
                         "xhr.onreadystatechange=function(){};"+
-                        "xhr.open(\"DELETE\", \"http://localhost:8080/rest/api/res/data/"+name+"\");"+
+                        "xhr.open(\"DELETE\", \"http://localhost:8080/rest/tp2/res/data/"+name+"\");"+
                         "xhr.send(null);"+
                         "};"+
                         "</script>";
-                result +="<form action=\"/rest/api/res/data\">"+
+                result +="<form action=\"/rest/tp2/res/data\">"+
                         "<input type=\"submit\" value=\"Return\">"+
                         "</form></br>";
             }else{
-                result +="<form action=\"/rest/api/res/"+this.commandes.getCurrentDir()+"/add\">"+
+                result +="<form action=\"/rest/tp2/res/"+this.commandes.getCurrentDir()+"/add\">"+
                         "<input type=\"submit\" value=\"Add File\">"+
                         "</form></br>";
-                result +="<form action=\"/rest/api/res/logout\">"+
+                result +="<form action=\"/rest/tp2/res/logout\">"+
                         "<input type=\"submit\" value=\"Logout\">"+
                         "</form></br>";
             }
@@ -203,7 +203,7 @@ public class RessourcesFichiers {
         if(this.commandes.CMDCWD("/data/"+dir)){
             String result = searchFile(name);
             if(this.commandes.getCurrentDir().equals("data/"+dir)){
-                result += "<form action=\"/rest/api/res/"+this.commandes.getCurrentDir()+"/"+name+"/edit\">"+
+                result += "<form action=\"/rest/tp2/res/"+this.commandes.getCurrentDir()+"/"+name+"/edit\">"+
                         "<input type=\"submit\" value=\"Edit\">"+
                         "</form></br>";
                 result += "<button onclick= \"p()\">Delete</button>"+
@@ -212,18 +212,18 @@ public class RessourcesFichiers {
                         "console.log(\"Ici\");"+
                         "xhr=window.ActiveXObject ? new ActiveXObject(\"Microsoft.XMLHTTP\") : new XMLHttpRequest();"+
                         "xhr.onreadystatechange=function(){};"+
-                        "xhr.open(\"DELETE\", \"http://localhost:8080/rest/api/res/data/"+dir+"/"+name+"\");"+
+                        "xhr.open(\"DELETE\", \"http://localhost:8080/rest/tp2/res/data/"+dir+"/"+name+"\");"+
                         "xhr.send(null);"+
                         "};"+
                         "</script>";
-                result +="<form action=\"/rest/api/res/data/"+dir+"\">"+
+                result +="<form action=\"/rest/tp2/res/data/"+dir+"\">"+
                         "<input type=\"submit\" value=\"Return\">"+
                         "</form></br>";
             }else{
-                result +="<form action=\"/rest/api/res/"+this.commandes.getCurrentDir()+"/add\">"+
+                result +="<form action=\"/rest/tp2/res/"+this.commandes.getCurrentDir()+"/add\">"+
                         "<input type=\"submit\" value=\"Add File\">"+
                         "</form></br>";
-                result +="<form action=\"/rest/api/res/logout\">"+
+                result +="<form action=\"/rest/tp2/res/logout\">"+
                         "<input type=\"submit\" value=\"Logout\">"+
                         "</form></br>";
             }
@@ -255,7 +255,7 @@ public class RessourcesFichiers {
                     "<title>Edit file</title>" +
                     " </head>" +
                     "<body>" +
-                    " <form action=\"/rest/api/res/data/"+name+"\" method=\"POST\">" +
+                    " <form action=\"/rest/tp2/res/data/"+name+"\" method=\"POST\">" +
                     "<label for=\"name\">Name</label>" +
                     "<input type=\"text\" name=\"name\" value=\""+name+"\"/>" +
                     "<br/>" +
@@ -290,7 +290,7 @@ public class RessourcesFichiers {
                     "<title>Edit file</title>" +
                     " </head>" +
                     "<body>" +
-                    " <form action=\"/rest/api/res/data/"+name+"\" method=\"POST\" >" +
+                    " <form action=\"/rest/tp2/res/data/"+name+"\" method=\"POST\" >" +
                     "<label for=\"name\">Name</label>" +
                     "<input type=\"text\" name=\"name\" value=\""+name+"\"/>" +
                     "<br/>" +
@@ -386,11 +386,11 @@ public class RessourcesFichiers {
                     "console.log(\"Ici\");"+
                     "xhr=window.ActiveXObject ? new ActiveXObject(\"Microsoft.XMLHTTP\") : new XMLHttpRequest();"+
                     "xhr.onreadystatechange=function(){};"+
-                    "xhr.open(\"PUT\", \"http://localhost:8080/rest/api/res/data\");"+
+                    "xhr.open(\"PUT\", \"http://localhost:8080/rest/tp2/res/data\");"+
                     "xhr.send(null);"+
                     "};"+
                     "</script>"+
-                    "<form action=\"/rest/api/res/data\">"+
+                    "<form action=\"/rest/tp2/res/data\">"+
                     "<input type=\"submit\" value=\"Return\">"+
                     "</form></br>"+
                     "</body>"+
@@ -434,11 +434,11 @@ public class RessourcesFichiers {
                     "console.log(\"Ici\");"+
                     "xhr=window.ActiveXObject ? new ActiveXObject(\"Microsoft.XMLHTTP\") : new XMLHttpRequest();"+
                     "xhr.onreadystatechange=function(){};"+
-                    "xhr.open(\"PUT\", \"http://localhost:8080/rest/api/res/data/"+dir+"\");"+
+                    "xhr.open(\"PUT\", \"http://localhost:8080/rest/tp2/res/data/"+dir+"\");"+
                     "xhr.send(null);"+
                     "};"+
                     "</script>"+
-                    "<form action=\"/rest/api/res/data/"+dir+"\">"+
+                    "<form action=\"/rest/tp2/res/data/"+dir+"\">"+
                     "<input type=\"submit\" value=\"Return\">"+
                     "</form></br>"+
                     "</body>"+
@@ -497,7 +497,7 @@ public class RessourcesFichiers {
                 "<title>Delete</title>" +
                 " </head>" +
                 "<body>" +
-                " <form action=\"/rest/api/res/data\" method=\"GET\">" +
+                " <form action=\"/rest/tp2/res/data\" method=\"GET\">" +
                 "<label for=\"name\">Delete fail ! Le fichier n'existe pas ou le dossier n'est pas vide</label>" +
                 " <br/>" +
                 "<input type=\"submit\" value=\"Submit\" />" +
@@ -524,7 +524,7 @@ public class RessourcesFichiers {
                 "<title>Delete</title>" +
                 " </head>" +
                 "<body>" +
-                " <form action=\"/rest/api/res/data/"+dir+"\" method=\"GET\">" +
+                " <form action=\"/rest/tp2/res/data/"+dir+"\" method=\"GET\">" +
                 "<label for=\"name\">Delete fail ! Le fichier n'existe pas ou le dossier n'est pas vide</label>" +
                 " <br/>" +
                 "<input type=\"submit\" value=\"Submit\" />" +
@@ -620,10 +620,10 @@ public class RessourcesFichiers {
         for(int i = 0; i < test.length - 1; i++){
             if(test[i].length()>0){
 
-                result+="<a href='/rest/api/res/"+this.commandes.getCurrentDir()+"/"+test[i]+"'>" +  test[i] + "</a></br>";
+                result+="<a href='/rest/tp2/res/"+this.commandes.getCurrentDir()+"/"+test[i]+"'>" +  test[i] + "</a></br>";
             }
         }
-        result+="<a href='/rest/api/res/"+this.commandes.getCurrentDir()+"/..'>..</a></br>";
+        result+="<a href='/rest/tp2/res/"+this.commandes.getCurrentDir()+"/..'>..</a></br>";
         System.out.println("here");
         return result ;
 

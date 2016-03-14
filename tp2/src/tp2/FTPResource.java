@@ -1,13 +1,14 @@
 package tp2;
 
-import exemple.ftpClient.FTPClient;
-import exemple.ftpClient.FTPCommandes;
+import tp2.ftpClient.FTPClient;
+import tp2.ftpClient.FTPCommandes;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+
 
 /**
  * Created by durand on 01/03/16.
@@ -62,7 +63,7 @@ public class FTPResource {
 				"<title>Login</title>" +
 				" </head>" +
 				"<body>" +
-				" <form action=\"/rest/api/res/data\" method=\"POST\">" +
+				" <form action=\"/rest/tp2/ftp/data\" method=\"POST\">" +
 				"<label for=\"name\">Name</label>" +
 				"<input type=\"text\" name=\"name\" />" +
 				"<br/>" +
@@ -87,7 +88,15 @@ public class FTPResource {
         commandes.CMDUSER(name);
         if(commandes.CMDPASS(password)){
             this.login = true;
-            return getFiles();
+            return "<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\"+\n" +
+                    "                \"<html xmlns=\\\"<xmlns />\\\" xml:lang=\\\"en\\\">\"+\n" +
+                    "                \"<head>\" +\n" +
+                    "                \"<title>Login OK</title>\" +\n" +
+                    "                \" </head>\" +\n" +
+                    "                \"<body><h1>Login ok</h1>\" +"+
+                    "                <a href='/data/'>Click here</a>"+
+                    "</body>" +
+                    "</html>";
         }
         return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+
                 "<html xmlns=\"<xmlns />\" xml:lang=\"en\">"+
@@ -95,7 +104,7 @@ public class FTPResource {
                 "<title>Login</title>" +
                 " </head>" +
                 "<body>" +
-                " <form action=\"/rest/api/res/login\" method=\"GET\">" +
+                " <form action=\"/rest/tp2/ftp/login\" method=\"GET\">" +
                 "<label for=\"name\">Login fail !</label>" +
                 " <br/>" +
                 "<input type=\"submit\" value=\"Submit\" />" +
@@ -134,7 +143,7 @@ public class FTPResource {
         if(this.commandes.CMDCWD("/data")){
             String result = searchFile(name);
             if(this.commandes.getCurrentDir().equals("data")){
-                result += "<form action=\"/rest/api/res/"+this.commandes.getCurrentDir()+"/"+name+"/edit\">"+
+                result += "<form action=\"/rest/tp2/ftp/"+this.commandes.getCurrentDir()+"/"+name+"/edit\">"+
                         "<input type=\"submit\" value=\"Edit\">"+
                         "</form>";
                 result += "<button onclick= \"p()\">Delete</button>"+
@@ -143,18 +152,18 @@ public class FTPResource {
                         "console.log(\"Ici\");"+
                         "xhr=window.ActiveXObject ? new ActiveXObject(\"Microsoft.XMLHTTP\") : new XMLHttpRequest();"+
                         "xhr.onreadystatechange=function(){};"+
-                        "xhr.open(\"DELETE\", \"http://localhost:8080/rest/api/res/data/"+name+"\");"+
+                        "xhr.open(\"DELETE\", \"http://localhost:8080/rest/tp2/ftp/data/"+name+"\");"+
                         "xhr.send(null);"+
                         "};"+
                         "</script>";
-                result +="<form action=\"/rest/api/res/data\">"+
+                result +="<form action=\"/rest/tp2/ftp/data\">"+
                         "<input type=\"submit\" value=\"Return\">"+
                         "</form></br>";
             }else{
-                result +="<form action=\"/rest/api/res/"+this.commandes.getCurrentDir()+"/add\">"+
+                result +="<form action=\"/rest/tp2/ftp/"+this.commandes.getCurrentDir()+"/add\">"+
                         "<input type=\"submit\" value=\"Add File\">"+
                         "</form></br>";
-                result +="<form action=\"/rest/api/res/logout\">"+
+                result +="<form action=\"/rest/tp2/ftp/logout\">"+
                         "<input type=\"submit\" value=\"Logout\">"+
                         "</form></br>";
             }
@@ -179,7 +188,7 @@ public class FTPResource {
         if(this.commandes.CMDCWD("/data/"+dir)){
             String result = searchFile(name);
             if(this.commandes.getCurrentDir().equals("data/"+dir)){
-                result += "<form action=\"/rest/api/res/"+this.commandes.getCurrentDir()+"/"+name+"/edit\">"+
+                result += "<form action=\"/rest/tp2/ftp/"+this.commandes.getCurrentDir()+"/"+name+"/edit\">"+
                         "<input type=\"submit\" value=\"Edit\">"+
                         "</form></br>";
                 result += "<button onclick= \"p()\">Delete</button>"+
@@ -188,18 +197,18 @@ public class FTPResource {
                         "console.log(\"Ici\");"+
                         "xhr=window.ActiveXObject ? new ActiveXObject(\"Microsoft.XMLHTTP\") : new XMLHttpRequest();"+
                         "xhr.onreadystatechange=function(){};"+
-                        "xhr.open(\"DELETE\", \"http://localhost:8080/rest/api/res/data/"+dir+"/"+name+"\");"+
+                        "xhr.open(\"DELETE\", \"http://localhost:8080/rest/tp2/ftp/data/"+dir+"/"+name+"\");"+
                         "xhr.send(null);"+
                         "};"+
                         "</script>";
-                result +="<form action=\"/rest/api/res/data/"+dir+"\">"+
+                result +="<form action=\"/rest/tp2/ftp/data/"+dir+"\">"+
                         "<input type=\"submit\" value=\"Return\">"+
                         "</form></br>";
             }else{
-                result +="<form action=\"/rest/api/res/"+this.commandes.getCurrentDir()+"/add\">"+
+                result +="<form action=\"/rest/tp2/ftp/"+this.commandes.getCurrentDir()+"/add\">"+
                         "<input type=\"submit\" value=\"Add File\">"+
                         "</form></br>";
-                result +="<form action=\"/rest/api/res/logout\">"+
+                result +="<form action=\"/rest/tp2/ftp/logout\">"+
                         "<input type=\"submit\" value=\"Logout\">"+
                         "</form></br>";
             }
@@ -208,7 +217,85 @@ public class FTPResource {
         }
         return "<h1>PATH NOT FOUND</h1>";
     }
-    
 
+
+    /* -- Fonctions supplémentaires --*/
+    public String searchFile(String name) throws IOException{
+        System.out.println(name);
+        File f;
+
+        f=new File(this.commandes.getCurrentDir()+"/"+name);
+        if(f.exists()){
+            System.out.println(f);
+            if(f.isFile()){
+                System.out.println("Dans méthode isFile");
+                return read(f);
+            }
+
+            if(f.isDirectory()){
+                if(this.commandes.CMDCWD(name)){
+                    return list(f);
+                }
+
+
+            }
+        }else{
+            System.out.println("FileNotFound");
+            boolean retour = this.commandes.CMDRETR(name);
+            System.out.println(f);
+
+            if(retour){
+
+                if(!login)
+                    return logIn();
+                System.out.println("Dans méthode isFile");
+                return read(f);
+            }
+            if(!retour){
+                f.delete();
+                Files.createDirectory(f.toPath());
+                System.out.println("dossier :" +f.isDirectory());
+                if(this.commandes.CMDCWD(name)){
+                    return list(f);
+                }
+            }
+
+
+
+
+        }
+        return "<h1>FILE NOT FOUND</h1>";
+    }
+
+    public String read(File f) throws IOException{
+        String result ="";
+        FileInputStream br = new FileInputStream(f);
+
+        byte [] buffer = new byte[(int) f.length()];
+        while(br.read(buffer) > 0){
+            result+= new String(buffer);
+        }
+        br.close();
+
+        return result;
+    }
+
+    public String list(File f) throws IOException{
+        String result="";
+        System.out.println(this.commandes.getCurrentDir());
+        result = this.commandes.CMDLIST("");
+        String[] test = result.split("\r\n");
+        result="";
+        for(int i = 0; i < test.length - 1; i++){
+            if(test[i].length()>0){
+
+                result+="<a href='/rest/tp2/ftp/"+this.commandes.getCurrentDir()+"/"+test[i]+"'>" +  test[i] + "</a></br>";
+            }
+        }
+        result+="<a href='/rest/tp2/ftp/"+this.commandes.getCurrentDir()+"/..'>..</a></br>";
+        System.out.println("here");
+        return result ;
+
+    }
 }
 

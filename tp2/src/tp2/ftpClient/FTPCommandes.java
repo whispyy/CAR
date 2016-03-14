@@ -1,4 +1,4 @@
-package exemple.ftpClient;
+package tp2.ftpClient;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
