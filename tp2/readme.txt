@@ -11,14 +11,23 @@ L'archive est constituée des éléments suivants :
 
 
 Commentaire général :
-	Fonctionnel avec néanmoins quelques bug, et certaines fonctions non implémantés tel que :
-		- 
-
+	Fonctionnel avec néanmoins quelques bug :
+		- addFile ne fonctionne pas.
 
 Détails concernant les classes :
-
-
-
-
+	Le TP est principalement composé en trois parties :
+		- une partie client FTP regroupant FTPCommande et FTPClient
+		- une partie configuration du serveur rest regroupant les classes Config et Starter
+		- une partie plateforme REST regroupant FTPResource et AdditionnalResources
+	Les méthodes POST sont les suivantes :
+		- LogInAction qui permet de se connecter
+		- updateFile pour la mise a jour d'un contenu sur le serveur
+	Une méthode DELETE :
+		- deleteFile qui permet de supprimer un fichier
+	Les méthdoes GET :
+		- logIn, logOut connexion et deconnexion
+		- getFile permet de lire les fichiers
+		- addFile permet d'ajouter un fichier
 Gestion des erreurs :
-
+	- Les actions de connexions du FTPResource sont gérés via une IOException
+	- Les actions du FTPClient sont gérés via des IOExceptions pour les commandes (FTPCommandes) et également FileNotFound.

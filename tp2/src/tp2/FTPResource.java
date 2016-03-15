@@ -317,7 +317,6 @@ public class FTPResource {
                 "</html>";
     }
 
-    /* -- Fonctions supplémentaires --*/
-
+    
 }
 
