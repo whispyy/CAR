@@ -1,7 +1,5 @@
 package tp2;
 
-import tp2.ftpClient.FTPCommandes;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
