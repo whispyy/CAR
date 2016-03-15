@@ -25,7 +25,7 @@ public class Starter {
 		final ServletHolder servletHolder = new ServletHolder( new CXFServlet() );
 		final ServletContextHandler context = new ServletContextHandler(); 		
 		context.setContextPath( "/" );
-		context.addServlet( servletHolder, "/rest/*" ); 	
+		context.addServlet( servletHolder, "/rest/*" );
 		context.addEventListener( new ContextLoaderListener() );
 
 		context.setInitParameter( "contextClass", AnnotationConfigWebApplicationContext.class.getName() );

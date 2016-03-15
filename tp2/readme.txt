@@ -1,32 +1,33 @@
-README
-------
-
-Ce projet fournit un framework simple [1] pour l'execution de programmes
-accessibles en tant que ressources REST.
-
-Les ressources se programment comment des classes annotees avec l'API JAX-RS.
-Voir un example avec la classe car.tp2.HelloWorldResource.
-
-Pour pouvoir etre prises en compte par le framework, les ressources doivent etre
-declarees dans la classe car.tp2.Config, methode addResources. La declaration se
-fait en ajoutant une ligne de la forme :
-
-	resources.add( new MaClasseDeResource() )
-	
-Autant de ressources que necessaire peuvent etre declarees.
-
-Le lancement du framework se fait en invoquant la methode Main de la classe
-car.tp2.Starter.
-
-Une fois lancees, les ressources sont accessibles, par exemple via un
-navigateur, en chargeant une URL de la forme :
-
-	http://localhost:8080/rest/tp2/_ressource_
-	par exemple : http://localhost:8080/rest/tp2/helloworld
-	
-
-Lionel Seinturier.
-23 juillet 2015.
+TP2 - Plateforme REST
+Durand Jean-Frédéric
+Boukrou Malik
 
 
-[1] http://aredko.blogspot.fr/2013/01/going-rest-embedding-jetty-with-spring.html
+L'archive est constituée des éléments suivants :
+	- un dossier src contenant les sources
+	- un dossier doc contenant la javadoc
+	- un dossier target contenant les fichiers compilés
+	- un fichier image DiagrammeDeClasse.png
+
+
+Commentaire général :
+	Fonctionnel avec néanmoins quelques bug :
+		- addFile ne fonctionne pas.
+
+Détails concernant les classes :
+	Le TP est principalement composé en trois parties :
+		- une partie client FTP regroupant FTPCommande et FTPClient
+		- une partie configuration du serveur rest regroupant les classes Config et Starter
+		- une partie plateforme REST regroupant FTPResource et AdditionnalResources
+	Les méthodes POST sont les suivantes :
+		- LogInAction qui permet de se connecter
+		- updateFile pour la mise a jour d'un contenu sur le serveur
+	Une méthode DELETE :
+		- deleteFile qui permet de supprimer un fichier
+	Les méthdoes GET :
+		- logIn, logOut connexion et deconnexion
+		- getFile permet de lire les fichiers
+		- addFile permet d'ajouter un fichier
+Gestion des erreurs :
+	- Les actions de connexions du FTPResource sont gérés via une IOException
+	- Les actions du FTPClient sont gérés via des IOExceptions pour les commandes (FTPCommandes) et également FileNotFound.
