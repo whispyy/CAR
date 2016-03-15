@@ -30,6 +30,7 @@ Public interface Participant extends java.rmi.Remote{
 }
 
 Public class ParticipantImpl extends UnicastRemoteOject implements Participant{
+
 	//identifiant de site
 	protected int noInterne;
 	//site suivant
@@ -39,16 +40,15 @@ Public class ParticipantImpl extends UnicastRemoteOject implements Participant{
 	public ParticipantImpl(int no, Participant suivant)throws java.rmi.RemoteException{
 		this.noInterne = no;
 		this.suivantInterne = suivant;
-	}
 
-	public int election(int max, int init) throws RemoteException{
-		if (max < noInterne)
-			max = noInterne;
-		if (suivantInterne = suivant)
-			return max;
-		else
-			return suivantInterne.election(max,init);
+		public int election(int max, int init) throws RemoteException{
+			if (max < noInterne)
+				max = noInterne;
+			if (suivantInterne = suivant)
+				return max;
+			else
+				return suivantInterne.election(max,init);
+		}
 	}
-}
 ```
 
