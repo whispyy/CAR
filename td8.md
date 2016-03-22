@@ -1,4 +1,5 @@
 # CAR - TD8
+*15/03/2016*
 ---
 
 ## Test d'arrêt de la propagation
@@ -6,6 +7,7 @@
 1) On est pas capable de prédire si les deux vagues vont toujours se rencontrer aux antipodes de l'initiateur.
 
 Pour qu'ils se rencontrent aux antipodes ils nous faut deux hypotheses fortes :
+
 - Les serveurs fonctionnent à la même vitesse tout le temps.
 - Le réseau fonctionne de manière symétrique.
 
@@ -14,12 +16,14 @@ Comportement non déterministe, on ne peut pas supposer ceci donc.
 2) Exemple à 4 noeuds : k --sens1--> i --- j <--sens2-- l
 
 En parallèle :
+
 - 1/ Le site i a reçu la visite du sens 1 avant la visite du sens 2
 - 2/ Le site i propage la visite du sens 1 vers le site j et il termine la propagation du sens 2
 - 1/ Le site j a reçu le visite du sens  2 avant la visite du sens 1
 - 2/ Le site j propage la visite du sens 2 vers le site i et il termine la propagation du sens 1
 
 Conséquence :
+
 - Aucun site k en amont de i vers le sens 1 ne recevra la visite du sens 2
 - Aucun site l en amont de j vers le sens 2 ne recevra la visite du sens 1
 
@@ -30,6 +34,7 @@ Conséquence :
 ## Evaluation des performances
 
 4) En partant des hypothèses du début et en considérant que les processeurs sont tous identiques :
+
 - Le nombre de message sera à peu près divisé par deux à un ou deux prêt (correspondants aux noeuds de croisements des deux vagues).
 - En temps d'exécution également, seuls les serveurs aux antipodes auront un peu plus de calculs.
 
