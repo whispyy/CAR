@@ -1,30 +1,28 @@
-CAR - TP3 - AKKA
+﻿TP3 - AKKA
+DURAND Jean-Frédéric
+BOUKROU Malik
 
-Scénarios :
-	
-	Scénario : 
-		On possède un acteur parent qui possède une liste de fils qui possèdent chacun une liste de fils (Qui peut être vide)
-		Quand le parent reçois un message de type Greeting
-		Alors le parent envois ce message a tous ses fils
+Description du package :
+	- un dossier doc contient la doc
+	- un dossier src contient les sources (dans un package nommé akka)
+		- VisitingActor
+		- Visiting
+		- AddActor
+		- Main
+	- le diagramme de classe est à la racine
+	/!\ les librairies sont a placer à la racine dans un dossier lib. Elles ont été retirés pour des questions de places.
 
-	Scénario : 
-		On possède un acteur.
-		Quand l'acteur reçois un message de type AddActor
-		Alors un nouvel acteur est ajouté a la liste des fils de l'acteur
 
-	Scénario :
-		On possède un acteur d'un systeme 1 et un acteur d'un système 2
-		Quand on ajoute l'acteur du système 2 aux fils de l'acteur du système 1
-		Alors l'acteur du systeme 1 peut transferer ses messages vers le fils du système 2 sans soucis
+Description des classes :
+	- voir doc/index.html
+	- voir diagramme de classe.
 
-	Scénario :
-		On possède un acteur.
-		Quand il reçois un message de type indeterminé
-		Alors rien ne se passe
+Commentaire :
+	La classe Main de l'archive contient la réponses aux différentes questions à coder.
 
-	Scénario :
-		On possède un acteur 1 qui est fils de l'acteur 2 et inversement
-		Quand l'acteur 1 reçoit un message de type Greeting
-		Alors il est transféré a l'acteur 2 qui l'envois a l'acteur 1 qui ne le prend pas en compte pour éviter une boucle infini
-
-	Scénario : 
+Scénarios de tests :
+	- Si un acteur reçoit un message de type indeterminé rien ne se passe.
+	- Si un acteur reçoit un message de type AddActor alors un nouvel acteur est ajouté à la liste des fils de l'acteur
+	- Si le parent reçoit un message Visiting, alors il l'envoie à tous ses fils.
+	- Si un acteur est fils et parent en même temps, alors l'acteur parent l'envoie au fils qui l'envoie au parent qui n'en tiendra pas compte.
+		cf commentaire dans le Main.
