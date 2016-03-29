@@ -1,20 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Biblioth�que</title>
+	<meta charset="UTF-8"/>
+	<title>Bibliothèque</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>-->
 </head>
 <body>
 
-<h1>Ajouter un livre</h1>
+	<h1 class="center">Ajouter un livre</h1>
 
-<form>
-	<input type="text" name="auteur" placeholder="Auteur">
-	</br>
-	<input type="text" name="titre" placeholder="Titre">
-	</br>
-	<input type="number" name="annee" min="0" max="2100" placeholder="Annee">
-	</br>
-</form>
+	<form class="container">
+		<input type="text" name="auteur" placeholder="Auteur">
+		<br/>
+		<input type="text" name="titre" placeholder="Titre">
+		<br/>
+		<label for="annee">Année</label>
+		<input type="number" name="annee" min="0" max="2100" value="2016">
+		<br/>
+		<button class="btn" type="submit">Send</button>
+	</form>
 
+	<!--résultat obtenu lors du clic sur Send -->
+	<div class="container center">
+		<p>Auteur :</p>
+		<%= request.getParameter("auteur") %>
+		<br/>
+		<p>Titre :</p>
+		<%= request.getParameter("titre") %>
+		<br/>
+		<p>Annee :</p>
+		<%= request.getParameter("annee") %>
+	</div>
 </body>
 </html>

@@ -28,7 +28,7 @@ public class VisitingActor extends UntypedActor {
 	 * @throws Exception
      */
 	@Override
-	public void onReceive(Object message) throws Exception {
+	public synchronized void onReceive(Object message) throws Exception {
 		if (message instanceof Visiting) {
 			if (!messageReceived) {
 				System.out.println(name + " Reçoit la visite de : "
