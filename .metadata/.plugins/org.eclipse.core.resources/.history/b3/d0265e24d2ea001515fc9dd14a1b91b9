@@ -1,9 +1,0 @@
-
-public class TransfertActor extends UntypedActor {
-	
-	
-	public void onReceive(Object message) throws InterruptedException {
-		
-	}
-	
-}
