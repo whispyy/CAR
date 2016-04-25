@@ -11,7 +11,7 @@ public class StartupServlet extends HttpServlet {
 
 	public void init(ServletConfig config) {
 		Library lib = new Library();
-		lib.initBooks();
+		lib.init();
 		config.getServletContext().setAttribute("LIB", lib);
 		
 		Basket basket = new Basket();

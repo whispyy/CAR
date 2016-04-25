@@ -10,12 +10,12 @@ public class StartupServlet extends HttpServlet {
 	private static final long serialVersionUID = -1535804208755992063L;
 
 	public void init(ServletConfig config) {
-		Library lib = new Library();
-		lib.initBooks();
-		config.getServletContext().setAttribute("LIB", lib);
+		Library bibliotheque = new Library();
+		bibliotheque.init();
+		config.getServletContext().setAttribute("LIB", bibliotheque);
 		
-		Basket basket = new Basket();
-		config.getServletContext().setAttribute("BASKET", basket);
+		Basket panier = new Basket();
+		config.getServletContext().setAttribute("PANIER", panier);
 		
 		ListeCommandes commandes = new ListeCommandes();
 		config.getServletContext().setAttribute("COMMANDES", commandes);
