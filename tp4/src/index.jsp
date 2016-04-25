@@ -8,7 +8,7 @@
 <body>
 	<h1 class="center">Ajouter un livre</h1>
 	<!-- formulaire -->
-	<form class="container" action="index.jsp">
+	<form class="container" action="FormServlet">
 		<input type="text" name="auteur" placeholder="Auteur" value='<%= request.getParameter("auteur") %>'>
 		<br/>
 		<input type="text" name="titre" placeholder="Titre" value='<%= request.getParameter("titre") %>'>
