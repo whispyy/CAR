@@ -13,10 +13,10 @@ public class Bibliotheque {
 	public void init() {
 		this.livres = new ArrayList<Livre>();
 
-		Livre l1 = new Livre("Le seigneur des anneaux", "Tolkien", "1853");
-		Livre l2 = new Livre("Bébé Crumble et ses amis", "Tristan & Sarah", "2016");
-		Livre l3 = new Livre("Je ne sais plus quoi inventer", "Inconnue O'Bataillon", "1993");
-		Livre l4 = new Livre("Le Hobbit", "Tolkien", "????");
+		Livre l1 = new Livre("Dark Plagueis", "James Luceneau", "2003");
+		Livre l2 = new Livre("White Fang", "Jack London", "1999");
+		Livre l3 = new Livre("Trop vite", "Nabilla", "2016");
+		Livre l4 = new Livre("Tu n'as rien à craindre de moi", "Joann Sfar", "2010");
 
 		this.livres.add(l1);
 		this.livres.add(l2);
