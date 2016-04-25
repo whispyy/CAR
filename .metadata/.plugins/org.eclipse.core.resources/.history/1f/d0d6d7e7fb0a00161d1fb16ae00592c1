@@ -18,8 +18,8 @@ public class Commande {
 	 */
 	private Map<Book, Integer> books;
 
-	public Commande(Basket basket) {
-		this.books = new HashMap<Book, Integer>(basket.getBooks());
+	public Commande(Panier panier) {
+		this.books = new HashMap<Book, Integer>(panier.getBooks());
 	}
 
 	public int getId() {
@@ -30,7 +30,7 @@ public class Commande {
 		return books;
 	}
 
-	public void setBooks(Map<Book, Integer> books) {
-		this.books = books;
+	public void setListeLivre(Map<Book, Integer> listeLivre) {
+		this.books = listeLivre;
 	}
 }

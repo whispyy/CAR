@@ -14,7 +14,7 @@ public class StartupServlet extends HttpServlet {
 		bibliotheque.init();
 		config.getServletContext().setAttribute("LIB", bibliotheque);
 		
-		Basket panier = new Basket();
+		Panier panier = new Panier();
 		config.getServletContext().setAttribute("PANIER", panier);
 		
 		ListeCommandes commandes = new ListeCommandes();

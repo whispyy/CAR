@@ -31,15 +31,15 @@ table {
 
 		if (commandes != null) {
 			for (Commande commande : commandes.getListeCommandes()) {
-				out.print("<table><tr><td>Title<td>Author</td><td>Year</td><td>Qte</td></tr>");
-				for (Map.Entry<Book, Integer> map : commande.getBooks().entrySet()) {
-					Book b = map.getKey();
+				out.print("<table><tr><td>Titre<td>Auteur</td><td>Année</td><td>Quantité</td></tr>");
+				for (Map.Entry<Livre, Integer> entry : commande.getListeLivre().entrySet()) {
+					Livre livre = entry.getKey();
 
 					out.print("<tr>");
-					out.print("<td>" + b.getTitre() + "</td>");
-					out.print("<td>" + b.getAuteur() + "</td>");
-					out.print("<td>" + b.getAnnee() + "</td>");
-					out.print("<td>" + map.getValue() + "</td>");
+					out.print("<td>" + livre.getTitre() + "</td>");
+					out.print("<td>" + livre.getAuteur() + "</td>");
+					out.print("<td>" + livre.getAnnee() + "</td>");
+					out.print("<td>" + entry.getValue() + "</td>");
 
 					out.print("</tr>");
 					out.print("</form>");

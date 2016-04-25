@@ -4,3 +4,9 @@
 1461597862513	Rename type 'Bibliotheque'
 1461597912139	Rename field 'listeLivre'
 1461597991623	Rename method 'getListeLivre'
+1461598730265	Delete elements
+1461598753445	Rename resource 'liste_auteurs.jsp'
+1461598759070	Rename resource 'liste_livres.jsp'
+1461598765985	Rename resource 'panier.jsp'
+1461598772551	Rename type 'Panier'
+1461600115439	Rename resource 'auteurs.jsp'

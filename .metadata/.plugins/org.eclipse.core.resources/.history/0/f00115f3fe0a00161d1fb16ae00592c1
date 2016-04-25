@@ -30,7 +30,7 @@ public class Commande {
 		return books;
 	}
 
-	public void setBooks(Map<Book, Integer> books) {
-		this.books = books;
+	public void setListeLivre(Map<Book, Integer> listeLivre) {
+		this.books = listeLivre;
 	}
 }
