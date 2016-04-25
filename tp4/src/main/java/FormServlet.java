@@ -47,7 +47,7 @@ public class FormServlet extends HttpServlet {
 	            out.println(date);
 	            out.println("</p>");
 	            out.println("</body>");
-	            out.println("<button> <a href=\"formulaire.jsp?title=" + title + "&author=" + author + "&date=" + date + "\">");
+	            out.println("<button> <a href=\"index.jsp?title=" + title + "&author=" + author + "&date=" + date + "\">");
 	            out.println("Go to form </a> </button>");
 	            out.println("</body>");
 	            out.println("</html>");

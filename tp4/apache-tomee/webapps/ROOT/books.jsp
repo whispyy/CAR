@@ -12,20 +12,23 @@
 
 <html>
 <head>
-<style type="text/css">
-td {
-	border: 1px solid black;
-	padding: 5px;
-}
-
-input[type="text"][disabled] {
-	color: black;
-	border: none;
-	background: none;
-}
-</style>
+	<meta charset="UTF-8"/>
+	<title>Bibliothèque | Livres</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
 </head>
 <body>
+	<div class="navbar-fixed">
+	  <nav>
+      <div class="nav-wrapper teal lighten-1">
+        <a href="#" class="brand-logo right">CAR-TP4</a>
+        <ul id="nav-mobile" class="left hide-on-med-and-down">
+          <li><a href="liste_livres.jsp">Bibliothèque</a></li>
+          <li><a href="liste_auteurs.jsp">Auteurs</a></li>
+          <li><a href="panier.jsp">Mon Panier</a></li>
+        </ul>
+      </div>
+  	  </nav>
+  	</div>
 	<p>
 		<b>Liste des livres : </b>
 	</p>
@@ -58,3 +61,15 @@ input[type="text"][disabled] {
 	</table>
 </body>
 </html>
+<style type="text/css">
+td {
+	border: 1px solid black;
+	padding: 5px;
+}
+
+input[type="text"][disabled] {
+	color: black;
+	border: none;
+	background: none;
+}
+</style>
