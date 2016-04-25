@@ -17,7 +17,7 @@
         </ul>
       </div>
   	  </nav>
-  	</div>
+  	</div>	
 	<h1 class="center">Ajouter un livre</h1>
 	<!-- formulaire -->
 	<form class="container" action="index.jsp">

@@ -272,3 +272,369 @@ java.lang.Error: Unresolved compilation problems:
 	at org.apache.catalina.core.ContainerBase$ContainerBackgroundProcessor.run(ContainerBase.java:1524)
 	at java.lang.Thread.run(Unknown Source)
 
+avr. 25, 2016 10:57:28 PM org.apache.catalina.core.StandardWrapperValve invoke
+GRAVE: Servlet.service() for servlet [jsp] in context with path [] threw exception [Impossible de compiler la classe pour la JSP: 
+
+Une erreur s'est produite à la ligne: 5 dans le fichier jsp: /books.jsp
+Basket cannot be resolved to a type
+2: <%@ page import="car.tp4.*"%>
+3: 
+4: <%
+5: 	Basket basket = (Basket) application.getAttribute("BASKET");
+6: 	Library lib = (Library) application.getAttribute("LIB");
+7: 
+8: 	if (basket != null) {
+
+
+Une erreur s'est produite à la ligne: 5 dans le fichier jsp: /books.jsp
+Basket cannot be resolved to a type
+2: <%@ page import="car.tp4.*"%>
+3: 
+4: <%
+5: 	Basket basket = (Basket) application.getAttribute("BASKET");
+6: 	Library lib = (Library) application.getAttribute("LIB");
+7: 
+8: 	if (basket != null) {
+
+
+Une erreur s'est produite à la ligne: 6 dans le fichier jsp: /books.jsp
+Library cannot be resolved to a type
+3: 
+4: <%
+5: 	Basket basket = (Basket) application.getAttribute("BASKET");
+6: 	Library lib = (Library) application.getAttribute("LIB");
+7: 
+8: 	if (basket != null) {
+9: 		basket.add(Integer.parseInt(idStr), lib);
+
+
+Une erreur s'est produite à la ligne: 6 dans le fichier jsp: /books.jsp
+Library cannot be resolved to a type
+3: 
+4: <%
+5: 	Basket basket = (Basket) application.getAttribute("BASKET");
+6: 	Library lib = (Library) application.getAttribute("LIB");
+7: 
+8: 	if (basket != null) {
+9: 		basket.add(Integer.parseInt(idStr), lib);
+
+
+Une erreur s'est produite à la ligne: 9 dans le fichier jsp: /books.jsp
+idStr cannot be resolved to a variable
+6: 	Library lib = (Library) application.getAttribute("LIB");
+7: 
+8: 	if (basket != null) {
+9: 		basket.add(Integer.parseInt(idStr), lib);
+10: 	}
+11: %>
+12: 
+
+
+Une erreur s'est produite à la ligne: 38 dans le fichier jsp: /books.jsp
+Bibliotheque cannot be resolved to a type
+35: 	<table>
+36: 
+37: 		<%
+38: 			Bibliotheque bibliotheque = (Bibliotheque) application.getAttribute("LIB");
+39: 
+40: 			if (bibliotheque != null) {
+41: 				ArrayList<Livre> livres = bibliotheque.listeLivres();
+
+
+Une erreur s'est produite à la ligne: 38 dans le fichier jsp: /books.jsp
+Bibliotheque cannot be resolved to a type
+35: 	<table>
+36: 
+37: 		<%
+38: 			Bibliotheque bibliotheque = (Bibliotheque) application.getAttribute("LIB");
+39: 
+40: 			if (bibliotheque != null) {
+41: 				ArrayList<Livre> livres = bibliotheque.listeLivres();
+
+
+Une erreur s'est produite à la ligne: 41 dans le fichier jsp: /books.jsp
+Livre cannot be resolved to a type
+38: 			Bibliotheque bibliotheque = (Bibliotheque) application.getAttribute("LIB");
+39: 
+40: 			if (bibliotheque != null) {
+41: 				ArrayList<Livre> livres = bibliotheque.listeLivres();
+42: 
+43: 				out.print("<tr><td>Titre<td>Auteur</td><td>Année</td><td></td></tr>");
+44: 				for (Livre livre : livres) {
+
+
+Une erreur s'est produite à la ligne: 44 dans le fichier jsp: /books.jsp
+Livre cannot be resolved to a type
+41: 				ArrayList<Livre> livres = bibliotheque.listeLivres();
+42: 
+43: 				out.print("<tr><td>Titre<td>Auteur</td><td>Année</td><td></td></tr>");
+44: 				for (Livre livre : livres) {
+45: 					out.print("<form action=\"liste_livres.jsp\" method=\"post\">");
+46: 					out.print("<tr>");
+47: 					out.print("<td hidden><input type=\"hidden\" name=\"id\" value=\"" + livre.getId() + "\"></td>");
+
+
+Stacktrace:] with root cause
+org.apache.jasper.JasperException: Impossible de compiler la classe pour la JSP: 
+
+Une erreur s'est produite à la ligne: 5 dans le fichier jsp: /books.jsp
+Basket cannot be resolved to a type
+2: <%@ page import="car.tp4.*"%>
+3: 
+4: <%
+5: 	Basket basket = (Basket) application.getAttribute("BASKET");
+6: 	Library lib = (Library) application.getAttribute("LIB");
+7: 
+8: 	if (basket != null) {
+
+
+Une erreur s'est produite à la ligne: 5 dans le fichier jsp: /books.jsp
+Basket cannot be resolved to a type
+2: <%@ page import="car.tp4.*"%>
+3: 
+4: <%
+5: 	Basket basket = (Basket) application.getAttribute("BASKET");
+6: 	Library lib = (Library) application.getAttribute("LIB");
+7: 
+8: 	if (basket != null) {
+
+
+Une erreur s'est produite à la ligne: 6 dans le fichier jsp: /books.jsp
+Library cannot be resolved to a type
+3: 
+4: <%
+5: 	Basket basket = (Basket) application.getAttribute("BASKET");
+6: 	Library lib = (Library) application.getAttribute("LIB");
+7: 
+8: 	if (basket != null) {
+9: 		basket.add(Integer.parseInt(idStr), lib);
+
+
+Une erreur s'est produite à la ligne: 6 dans le fichier jsp: /books.jsp
+Library cannot be resolved to a type
+3: 
+4: <%
+5: 	Basket basket = (Basket) application.getAttribute("BASKET");
+6: 	Library lib = (Library) application.getAttribute("LIB");
+7: 
+8: 	if (basket != null) {
+9: 		basket.add(Integer.parseInt(idStr), lib);
+
+
+Une erreur s'est produite à la ligne: 9 dans le fichier jsp: /books.jsp
+idStr cannot be resolved to a variable
+6: 	Library lib = (Library) application.getAttribute("LIB");
+7: 
+8: 	if (basket != null) {
+9: 		basket.add(Integer.parseInt(idStr), lib);
+10: 	}
+11: %>
+12: 
+
+
+Une erreur s'est produite à la ligne: 38 dans le fichier jsp: /books.jsp
+Bibliotheque cannot be resolved to a type
+35: 	<table>
+36: 
+37: 		<%
+38: 			Bibliotheque bibliotheque = (Bibliotheque) application.getAttribute("LIB");
+39: 
+40: 			if (bibliotheque != null) {
+41: 				ArrayList<Livre> livres = bibliotheque.listeLivres();
+
+
+Une erreur s'est produite à la ligne: 38 dans le fichier jsp: /books.jsp
+Bibliotheque cannot be resolved to a type
+35: 	<table>
+36: 
+37: 		<%
+38: 			Bibliotheque bibliotheque = (Bibliotheque) application.getAttribute("LIB");
+39: 
+40: 			if (bibliotheque != null) {
+41: 				ArrayList<Livre> livres = bibliotheque.listeLivres();
+
+
+Une erreur s'est produite à la ligne: 41 dans le fichier jsp: /books.jsp
+Livre cannot be resolved to a type
+38: 			Bibliotheque bibliotheque = (Bibliotheque) application.getAttribute("LIB");
+39: 
+40: 			if (bibliotheque != null) {
+41: 				ArrayList<Livre> livres = bibliotheque.listeLivres();
+42: 
+43: 				out.print("<tr><td>Titre<td>Auteur</td><td>Année</td><td></td></tr>");
+44: 				for (Livre livre : livres) {
+
+
+Une erreur s'est produite à la ligne: 44 dans le fichier jsp: /books.jsp
+Livre cannot be resolved to a type
+41: 				ArrayList<Livre> livres = bibliotheque.listeLivres();
+42: 
+43: 				out.print("<tr><td>Titre<td>Auteur</td><td>Année</td><td></td></tr>");
+44: 				for (Livre livre : livres) {
+45: 					out.print("<form action=\"liste_livres.jsp\" method=\"post\">");
+46: 					out.print("<tr>");
+47: 					out.print("<td hidden><input type=\"hidden\" name=\"id\" value=\"" + livre.getId() + "\"></td>");
+
+
+Stacktrace:
+	at org.apache.jasper.compiler.DefaultErrorHandler.javacError(DefaultErrorHandler.java:103)
+	at org.apache.jasper.compiler.ErrorDispatcher.javacError(ErrorDispatcher.java:366)
+	at org.apache.jasper.compiler.JDTCompiler.generateClass(JDTCompiler.java:476)
+	at org.apache.jasper.compiler.Compiler.compile(Compiler.java:378)
+	at org.apache.jasper.compiler.Compiler.compile(Compiler.java:353)
+	at org.apache.jasper.compiler.Compiler.compile(Compiler.java:340)
+	at org.apache.jasper.JspCompilationContext.compile(JspCompilationContext.java:657)
+	at org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:357)
+	at org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:390)
+	at org.apache.jasper.servlet.JspServlet.service(JspServlet.java:334)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:727)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:303)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:220)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:122)
+	at org.apache.tomee.catalina.OpenEJBValve.invoke(OpenEJBValve.java:44)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:501)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:103)
+	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:950)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:116)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1070)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:611)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:316)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Unknown Source)
+
+avr. 25, 2016 10:57:48 PM org.apache.catalina.core.StandardWrapperValve invoke
+GRAVE: Servlet.service() for servlet [jsp] in context with path [] threw exception [Impossible de compiler la classe pour la JSP: 
+
+Une erreur s'est produite à la ligne: 27 dans le fichier jsp: /authors.jsp
+Library cannot be resolved to a type
+24: 		<ul>
+25: 		
+26: 		<%	
+27: 			Library lib = (Library)application.getAttribute("LIB");
+28: 		
+29: 			if(lib != null) {
+30: 				ArrayList<Author> authors = lib.getAuthors();
+
+
+Une erreur s'est produite à la ligne: 27 dans le fichier jsp: /authors.jsp
+Library cannot be resolved to a type
+24: 		<ul>
+25: 		
+26: 		<%	
+27: 			Library lib = (Library)application.getAttribute("LIB");
+28: 		
+29: 			if(lib != null) {
+30: 				ArrayList<Author> authors = lib.getAuthors();
+
+
+Une erreur s'est produite à la ligne: 30 dans le fichier jsp: /authors.jsp
+Author cannot be resolved to a type
+27: 			Library lib = (Library)application.getAttribute("LIB");
+28: 		
+29: 			if(lib != null) {
+30: 				ArrayList<Author> authors = lib.getAuthors();
+31: 				for (Author a : authors) {
+32: 					out.print("<li>" + a.getName() + "</li>");
+33: 				}
+
+
+Une erreur s'est produite à la ligne: 31 dans le fichier jsp: /authors.jsp
+Author cannot be resolved to a type
+28: 		
+29: 			if(lib != null) {
+30: 				ArrayList<Author> authors = lib.getAuthors();
+31: 				for (Author a : authors) {
+32: 					out.print("<li>" + a.getName() + "</li>");
+33: 				}
+34: 			}
+
+
+Stacktrace:] with root cause
+org.apache.jasper.JasperException: Impossible de compiler la classe pour la JSP: 
+
+Une erreur s'est produite à la ligne: 27 dans le fichier jsp: /authors.jsp
+Library cannot be resolved to a type
+24: 		<ul>
+25: 		
+26: 		<%	
+27: 			Library lib = (Library)application.getAttribute("LIB");
+28: 		
+29: 			if(lib != null) {
+30: 				ArrayList<Author> authors = lib.getAuthors();
+
+
+Une erreur s'est produite à la ligne: 27 dans le fichier jsp: /authors.jsp
+Library cannot be resolved to a type
+24: 		<ul>
+25: 		
+26: 		<%	
+27: 			Library lib = (Library)application.getAttribute("LIB");
+28: 		
+29: 			if(lib != null) {
+30: 				ArrayList<Author> authors = lib.getAuthors();
+
+
+Une erreur s'est produite à la ligne: 30 dans le fichier jsp: /authors.jsp
+Author cannot be resolved to a type
+27: 			Library lib = (Library)application.getAttribute("LIB");
+28: 		
+29: 			if(lib != null) {
+30: 				ArrayList<Author> authors = lib.getAuthors();
+31: 				for (Author a : authors) {
+32: 					out.print("<li>" + a.getName() + "</li>");
+33: 				}
+
+
+Une erreur s'est produite à la ligne: 31 dans le fichier jsp: /authors.jsp
+Author cannot be resolved to a type
+28: 		
+29: 			if(lib != null) {
+30: 				ArrayList<Author> authors = lib.getAuthors();
+31: 				for (Author a : authors) {
+32: 					out.print("<li>" + a.getName() + "</li>");
+33: 				}
+34: 			}
+
+
+Stacktrace:
+	at org.apache.jasper.compiler.DefaultErrorHandler.javacError(DefaultErrorHandler.java:103)
+	at org.apache.jasper.compiler.ErrorDispatcher.javacError(ErrorDispatcher.java:366)
+	at org.apache.jasper.compiler.JDTCompiler.generateClass(JDTCompiler.java:476)
+	at org.apache.jasper.compiler.Compiler.compile(Compiler.java:378)
+	at org.apache.jasper.compiler.Compiler.compile(Compiler.java:353)
+	at org.apache.jasper.compiler.Compiler.compile(Compiler.java:340)
+	at org.apache.jasper.JspCompilationContext.compile(JspCompilationContext.java:657)
+	at org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:357)
+	at org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:390)
+	at org.apache.jasper.servlet.JspServlet.service(JspServlet.java:334)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:727)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:303)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:220)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:122)
+	at org.apache.tomee.catalina.OpenEJBValve.invoke(OpenEJBValve.java:44)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:501)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:103)
+	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:950)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:116)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1070)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:611)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:314)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Unknown Source)
+
