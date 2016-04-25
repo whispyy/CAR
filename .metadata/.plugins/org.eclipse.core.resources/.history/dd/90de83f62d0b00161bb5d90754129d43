@@ -6,7 +6,7 @@
 	Library lib = (Library) application.getAttribute("LIB");
 
 	if (basket != null) {
-		basket.add("Salut", lib);
+		basket.add(Integer.parseInt(idStr), lib);
 	}
 %>
 
@@ -35,22 +35,23 @@
 	<table>
 
 		<%
-			Library lib2 = (Library) application.getAttribute("LIB");
+			Bibliotheque bibliotheque = (Bibliotheque) application.getAttribute("LIB");
 
-			if (lib2 != null) {
-				ArrayList<Book> books = lib2.getBooks();
+			if (bibliotheque != null) {
+				ArrayList<Livre> livres = bibliotheque.listeLivres();
 
-				out.print("<tr><td>Title<td>Author</td><td>Year</td><td></td></tr>");
-				for (Book b : books) {
-					out.print("<form action=\"books.jsp\" method=\"post\">");
+				out.print("<tr><td>Titre<td>Auteur</td><td>Année</td><td></td></tr>");
+				for (Livre livre : livres) {
+					out.print("<form action=\"liste_livres.jsp\" method=\"post\">");
 					out.print("<tr>");
-					out.print("<td><input type=\"text\" name=\"titre\" value=\"" + b.getTitle()
+					out.print("<td hidden><input type=\"hidden\" name=\"id\" value=\"" + livre.getId() + "\"></td>");
+					out.print("<td><input type=\"text\" name=\"titre\" value=\"" + livre.getTitre()
 							+ "\" disabled></td>");
-					out.print("<td><input type=\"text\" name=\"auteur\" value=\"" + b.getAuthor()
+					out.print("<td><input type=\"text\" name=\"auteur\" value=\"" + livre.getAuteur()
 							+ "\" disabled></td>");
-					out.print("<td><input type=\"text\" name=\"annee\" value=\"" + b.getYear()
+					out.print("<td><input type=\"text\" name=\"annee\" value=\"" + livre.getAnnee()
 							+ "\" disabled></td>");
-					out.print("<td><input type=\"submit\" value=\"Add to basket\"></td>");
+					out.print("<td><input type=\"submit\" value=\"Ajouter au panier\"></td>");
 					out.print("</tr>");
 					out.print("</form>");
 				}

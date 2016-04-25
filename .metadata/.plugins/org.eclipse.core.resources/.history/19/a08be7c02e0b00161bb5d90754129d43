@@ -35,15 +35,15 @@
 	<table>
 
 		<%
-			Library lib2 = (Library) application.getAttribute("LIB");
+			Library lib = (Library) application.getAttribute("LIB");
 
-			if (lib2 != null) {
-				ArrayList<Book> books = lib2.getBooks();
+			if (lib != null) {
+				ArrayList<Book> books = lib.getBooks();
 
 				out.print("<tr><td>Title<td>Author</td><td>Year</td><td></td></tr>");
 				for (Book b : books) {
 					out.print("<form action=\"books.jsp\" method=\"post\">");
-					out.print("<tr>");
+					out.print("<tr>")
 					out.print("<td><input type=\"text\" name=\"titre\" value=\"" + b.getTitle()
 							+ "\" disabled></td>");
 					out.print("<td><input type=\"text\" name=\"auteur\" value=\"" + b.getAuthor()

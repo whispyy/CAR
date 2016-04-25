@@ -43,7 +43,7 @@
 				out.print("<tr><td>Title<td>Author</td><td>Year</td><td></td></tr>");
 				for (Book b : books) {
 					out.print("<form action=\"books.jsp\" method=\"post\">");
-					out.print("<tr>");
+					out.print("<tr>")
 					out.print("<td><input type=\"text\" name=\"titre\" value=\"" + b.getTitle()
 							+ "\" disabled></td>");
 					out.print("<td><input type=\"text\" name=\"auteur\" value=\"" + b.getAuthor()

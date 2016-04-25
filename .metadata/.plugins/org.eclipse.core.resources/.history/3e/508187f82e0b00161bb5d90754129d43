@@ -49,9 +49,9 @@
 					Book b = map.getKey();
 
 					out.print("<tr>");
-					out.print("<td>" + b.getTitle() + "</td>");
-					out.print("<td>" + b.getAuthor() + "</td>");
-					out.print("<td>" + b.getYear() + "</td>");
+					out.print("<td>" + b.getTitre() + "</td>");
+					out.print("<td>" + b.getAuteur() + "</td>");
+					out.print("<td>" + b.getAnnee() + "</td>");
 					out.print("<td>" + map.getValue() + "</td>");
 
 					out.print("</tr>");
