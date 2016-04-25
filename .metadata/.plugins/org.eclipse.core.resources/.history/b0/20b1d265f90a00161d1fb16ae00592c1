@@ -1,0 +1,52 @@
+
+import java.util.ArrayList;
+import java.util.HashSet;
+
+import javax.ejb.Stateful;
+
+@Stateful
+public class Bibliotheque {
+
+	private ArrayList<Livre> livres;
+
+	public void init() {
+		this.livres = new ArrayList<Livre>();
+
+		Book l1 = new Book("Trop vite", "Nabilla", "2016");
+		Book l2 = new Book("Harry Potter 5", "J.K Rowling", "2009");
+		Book l3 = new Book("Comment avoir un 20/20 en CAR", "Malik Boukrou", "2017");
+		this.livres.add(l1);
+		this.livres.add(l2);
+		this.livres.add(l3);
+	}
+	
+	public void add(String titre, String auteur, String date) {
+		this.livres.add(new Livre(titre, auteur, date));
+	}
+
+	public ArrayList<Livre> listeLivres() {
+		return this.livres;
+	}
+
+	public ArrayList<String> listeAuteurs() {
+		HashSet<String> auteurs = new HashSet<String>();
+
+		for (Livre livre : livres) {
+			auteurs.add(livre.getAuteur());
+		}
+
+		ArrayList<String> liste = new ArrayList<String>(auteurs);
+
+		return liste;
+	}
+	
+	public Livre getLivre(int id) {
+		for (Livre livre : livres) {
+			if(livre.getId() == id) {
+				return livre;
+			}
+		}
+		return null;
+	}
+
+}

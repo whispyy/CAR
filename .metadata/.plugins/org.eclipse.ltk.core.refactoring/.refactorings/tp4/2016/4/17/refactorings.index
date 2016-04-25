@@ -1,0 +1,6 @@
+1461597500804	Rename local variable 'titre'
+1461597599088	Rename local variable 'auteurs'
+1461597838993	Delete element
+1461597862513	Rename type 'Bibliotheque'
+1461597912139	Rename field 'listeLivre'
+1461597991623	Rename method 'getListeLivre'

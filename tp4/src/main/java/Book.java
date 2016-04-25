@@ -2,58 +2,58 @@
  * Created by durand on 19/04/16.
  */
 
-import javax.persistence.Entity;
 import java.io.Serializable;
-import java.sql.Date;
+
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
 public class Book implements Serializable{
-        private static final long serialVersionUID = 1L;
 
 
-        private String title;
-        private Author author;
-        private Date date;
+	private static final long serialVersionUID = 1L;
+	private String title;
+	private Author author;
+	private int year;
 
-        public Book() {
-            this.title = "";
-        }
+	public Book() {
+		this.title = "";
+	}
 
-        public Book(String title) {
-            this.title = title;
-        }
+	public Book(String title) {
+		this.title = title;
+	}
 
-        public Book(Author a, String t, Date date){
-            this.author = a;
-            this.title = t;
-            this.date = date;
-        }
+	public Book(String t, Author a, int year){
+		this.author = a;
+		this.title = t;
+		this.year = year;
+	}
 
-        @ManyToOne
-        public Author getAuthor() {
-            return author;
-        }
+	@ManyToOne
+	public Author getAuthor() {
+		return author;
+	}
 
-        public void setAuthor(Author author) {
-            this.author = author;
-        }
+	public void setAuthor(Author author) {
+		this.author = author;
+	}
 
-        @Id
-        public String getTitle() {
-            return title;
-        }
+	@Id
+	public String getTitle() {
+		return title;
+	}
 
-        public void setTitle(String title) {
-            this.title = title;
-        }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-		public Date getDate() {
-			return date;
-		}
+	public int getYear() {
+		return year;
+	}
 
-		public void setDate(Date date) {
-			this.date = date;
-		}
+	public void setYear(int year) {
+		this.year = year;
+	}
 }

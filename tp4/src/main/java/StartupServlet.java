@@ -10,7 +10,7 @@ public class StartupServlet extends HttpServlet {
 	private static final long serialVersionUID = -1535804208755992063L;
 
 	public void init(ServletConfig config) {
-		Bibliotheque bibliotheque = new Bibliotheque();
+		Library bibliotheque = new Library();
 		bibliotheque.init();
 		config.getServletContext().setAttribute("LIB", bibliotheque);
 		
@@ -20,6 +20,6 @@ public class StartupServlet extends HttpServlet {
 		ListeCommandes commandes = new ListeCommandes();
 		config.getServletContext().setAttribute("COMMANDES", commandes);
 		
-		System.out.println("_______My servlet has been initialized_______");
+		System.out.println("Servlet online.");
 	}
 }

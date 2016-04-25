@@ -1,7 +1,6 @@
 
 
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.persistence.Entity;
 
@@ -11,28 +10,28 @@ public class Panier {
 	/**
 	 * Livre : livre, int : nombre de livre
 	 */
-	private HashMap<Livre, Integer> listeLivre;
+	private HashMap<Book, Integer> books;
 
 	public Panier() {
-		this.listeLivre = new HashMap<Livre, Integer>();
+		this.books = new HashMap<Book, Integer>();
 	}
 
-	public HashMap<Livre, Integer> getListeLivre() {
-		return listeLivre;
+	public HashMap<Book, Integer> getBooks() {
+		return books;
 	}
 
 	public void clear() {
-		this.listeLivre.clear();
+		this.books.clear();
 	}
 
-	public void add(int id, Bibliotheque bibliotheque) {
-		Livre livre = bibliotheque.getLivre(id);
+	public void add(String title, Library lib) {
+		Book b = lib.getBook(title);
 
-		if (livre != null) {
-			if (this.listeLivre.containsKey(livre)) {
-				this.listeLivre.put(livre, this.listeLivre.get(livre) + 1);
+		if (b != null) {
+			if (this.books.containsKey(b)) {
+				this.books.put(b, this.books.get(b) + 1);
 			} else {
-				this.listeLivre.put(livre, 1);
+				this.books.put(b, 1);
 			}
 		}
 	}

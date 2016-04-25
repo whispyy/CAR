@@ -4,6 +4,7 @@
 
 import java.util.ArrayList;
 import java.util.Collection;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -18,6 +19,10 @@ public class Author {
     
     @OneToMany
     private Collection<Book> books;
+    
+    public Author(String name){
+    	this.name = name;
+    }
 
     public Author() {
         this.books = new ArrayList<Book>();

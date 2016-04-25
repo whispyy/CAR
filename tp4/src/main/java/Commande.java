@@ -16,21 +16,21 @@ public class Commande {
 	/**
 	 * Livre : livre, int : nombre de livre
 	 */
-	private Map<Livre, Integer> listeLivre;
+	private Map<Book, Integer> books;
 
 	public Commande(Panier panier) {
-		this.listeLivre = new HashMap<Livre, Integer>(panier.getListeLivre());
+		this.books = new HashMap<Book, Integer>(panier.getBooks());
 	}
 
 	public int getId() {
 		return id;
 	}
 
-	public Map<Livre, Integer> getListeLivre() {
-		return listeLivre;
+	public Map<Book, Integer> getListeLivre() {
+		return books;
 	}
 
-	public void setListeLivre(Map<Livre, Integer> listeLivre) {
-		this.listeLivre = listeLivre;
+	public void setListeLivre(Map<Book, Integer> listeLivre) {
+		this.books = listeLivre;
 	}
 }
