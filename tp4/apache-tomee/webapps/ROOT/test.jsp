@@ -1,10 +1,10 @@
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="car.tp4.*"%>
+<%@ page import="tp4.*"%>
 
 <html>
 <head>
 	<meta charset="UTF-8"/>
-	<title>Bibliothèque | Auteurs</title>
+	<title>Bibliothèque | test</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
 </head>
   <body>
